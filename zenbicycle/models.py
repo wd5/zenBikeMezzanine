@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 #from put.zenbicycle.fields import ThumbnailImageField
 from django.db import models
-
+from mezzanine.core.fields import FileField
+from mezzanine.core.models import Orderable, RichText
+from mezzanine.pages.models import Page
 
 class color(models.Model):
     name = models.CharField(max_length=10)
@@ -9,10 +11,11 @@ class color(models.Model):
         return self.name
 
 # класс модель вела 
-class AbstractModelBicycle(models.Model):
+class AbstractModelBicycle(Page, RichText):
     modelName = models.CharField(max_length=255)
     firm = models.CharField(max_length=255)
     year = models.IntegerField()
+    img = models.ImageField(upload_to="abstractBicycle")
     #img = ThumbnailImageField(upload_to='/img') # картинка
     features = models.TextField(blank=True) # характеринстика
     link = models.TextField(blank=True)
@@ -20,7 +23,7 @@ class AbstractModelBicycle(models.Model):
         return self.firm + ' ' + self.modelName
 
 # основной класс вела
-class bicycle(models.Model):
+class bicycle(Page, RichText):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     numberFrame = models.CharField(max_length=255)
@@ -31,7 +34,7 @@ class bicycle(models.Model):
     def __unicode__(self):
         return self.title
 
-class incident(models.Model):
+class incident(Page, RichText):
     date = models.DateTimeField()
     placeText = models.CharField(max_length=255)
     placeOnMap = models.CharField(max_length=255)

@@ -9,7 +9,7 @@ class AbstractModelBicycleAdmin(admin.ModelAdmin):
     list_display = ('firm', 'modelName', 'year')
 '''   fieldsets = [
         (None,               {'fields': ['title', 'author']}),
-        ('Additional', {'fields': ['img'], 'classes': ['cfffffffffffffffffffffffffffffffffffffffffffffffffffffollapse']}),
+        ('Additional', {'fields': ['img'], 'classes': ['collapse']}),
     ]
  #   inlines = [TrackInline]
     search_fields= ['title', 'author']

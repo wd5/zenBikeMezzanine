@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block menu %}
+<li><a href="/zenbicycle" class="first">Home</a></li>
+<li><a href="#">Details</a></li>
+{% endblock menu %}
+
+{% block registration_current_page %} class="current_page_item"{% endblock %}
+
+{% block content %}
+
+<div class="post">
+	<h2 class="title">Hello! Please register an account!</h2>
+	<div class="entry">
+		<table>
+		<form method="post" action="">{% csrf_token %}
+			{% for field in form %}
+			<tr>
+			<td class="labels">{{ field.label_tag }}</td>
+			<td>{{ field }}</td>
+			{% if field.help_text %}<td>{{ field.help_text }}</td>{% endif %}
+			{% if field.errors %}<td class="myerrors">{{ field.errors }}</td>{% endif %}
+			</tr>
+		{% endfor %}
+			<tr><td class="button"><input type="submit" value="Register now!"/></td></tr>
+		</form>
+		</table>
+	</div>
+</div>
+
+{% endblock content %}
+
+{% block sidebar %}
+
+<ul>
+	<li>
+		<h2>Register</h2>
+		<ul>
+			<li>Please provide your new account details here.</li>
+			<li>Your account will not be active until you click on the activation code in the e-mail we'll send to you.</li>
+		</ul>
+	</li>
+</ul> 
+
+{% endblock sidebar %}

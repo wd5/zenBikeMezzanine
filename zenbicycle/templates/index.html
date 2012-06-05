@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block menu %}
+    <!--  <li><a href="/zenbicycle">Home</a></li>
+      <li><a href="#">Details</a></li> -->
+{% endblock menu %}
+
+{% block content %}
+
+{% if bicycle_list %}
+
+            <table  class="table" >
+              <thead>
+                <tr>
+                  <th> # </th>
+                  <th> модель </th>
+                  <th> цвет </th>
+                </tr>
+              </thead>
+              {% for bicycle in bicycle_list %}
+                  <tbody>
+                    <tr>
+
+                      <td>{{ bicycle.id }}</td>
+                      <td><a href="/zenbicycle/{{ bicycle.id }}/">{{ bicycle.title }}</a></td>
+                        <td>{{ bicycle.author }}</td>
+
+                    </tr>
+                  </tbody>
+              {% endfor %}
+            </table>
+
+
+{% else %}
+    <div class="hero-unit">
+         <p>В базе нет данных.</p>
+    </div>
+{% endif %}
+
+{% endblock content %}
+
+{% block sidebar %}
+
+
+<ul>
+
+  <dl>   <h4> <i class="icon-home"> </i>  Welcom ! </h4>   </dl>
+
+		<ul>
+			<li>Here you can find all bike in bd.</li>
+			<li>Click on the bike title to see its details.</li>
+		</ul>
+
+</ul>
+
+{% endblock sidebar %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block menu %}
+<li><a href="/zenbicycle" class="first">Home</a></li>
+<li><a href="#">Details</a></li>
+{% endblock menu %}
+
+{% block login_current_page %} class="active pull-right"{% endblock %}
+
+{% block content %}
+
+<div class="post">
+	{% if user.is_authenticated %}
+		<h2 class="title">You are already logged-in!</h2>
+		<div class="entry">
+			<p>Please <a href="/accounts/logout"> log-out</a> first.</p>
+		</div>
+	{% else %}
+		<h2 class="title">Please enter your account details:</h2>
+		<div class="entry">
+
+		{% if form.errors %}
+			<p class="myerrors">Your username and password didn't match. Please try again.</p>
+		{% endif %}
+
+			<table>
+			<form method="post" action="{% url django.contrib.auth.views.login %}">{% csrf_token %}
+				{% for field in form %}
+					<tr>
+					<td class="labels">{{ field.label_tag }}</td>
+					<td>{{ field }}</td>
+					</tr>
+				{% endfor %}
+				<tr><td class="button"><input type="submit" value="Log-in" /></tr>
+				<input type="hidden" name="next" value="{% firstof next '/zenbicycle/' %}" />
+			</form>
+			</table>
+		</div>
+	{% endif %}
+	
+</div>
+		
+{% endblock %}
+
+{% block sidebar %}
+
+<ul>
+	<li>
+		<h2>Log-in</h2>
+		<ul>
+			<li>Please provide your login details here.</li>
+		</ul>
+	</li>
+</ul> 
+	
+{% endblock sidebar %}

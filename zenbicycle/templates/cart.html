@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block cart_current_page %} class="current_page_item"{% endblock %}
+
+{% block menu %}
+<li><a href="/zenbicycle" class="first">Home</a></li>
+<li><a href="#">Details</a></li>
+{% endblock menu %}
+
+{% block content %}
+
+
+{% if prodCount %}
+
+	<form name="buy" action="" method="post">{% csrf_token %}
+	<table CELLPADDING="5" RULES="rows" ALIGN="left" width="700">
+    	<tr>
+    		<td width="45%"><b>title</b></td>
+    		<td width="25%"><b>author</b></td>
+    		<td width="10%"><b>price</b></td>
+    		<td width="10%"><b>counts</b></td>
+    		<td width="10%"><b>total</b></td>
+    	</tr>
+    	{% for product in prodCount %}
+    	<tr>
+    		<td><a href="/cdstore/{{ product.cd.id }}">{{ product.cd.title }}</a></td>
+    		<td>{{ product.cd.author }}</td>
+    		<td>{{ product.cd.price }} $</td>
+    		{% if product.errorName	 = '' %}
+    			<td><input value="{{ product.count }}" size="3" type="text" name="{{product.cd.id}}" /></td>
+    			<td>{{ product.totalOne}} $</td> 
+    		{% else %}
+    			<td width="20%">
+    				<table>
+    				<tr>
+    					{{ product.errorName }}
+    				</tr>
+    				<tr bgcolor="red">
+    					<td bgcolor="red">
+    						<input value="{{ product.count }}" size="3" type="text" name="{{product.cd.id}}" />
+    					</td>
+    				</tr>
+    				</table>
+    			<td>{{ product.totalOne}} $</td> 
+    		{% endif %}
+
+    		  		
+    		<td>
+    			<a href="/cdstore/{{ product.cd.id }}/cartremove">remove</a>
+    		<td>
+    	</tr>
+    	{% endfor %}
+    	<tr>
+    		<td colspan="3">
+    			If you have changed count of any product, click:
+    			<input type="submit" value="Refresh"/>
+    		</td>
+			<td colspan="4" align="right">Total price: {{total}} $</td>
+    	</tr>
+    	{% if not error %}
+    		<tr>
+	    		<td colspan="5" align="right"><a href="/zenbicycle/cart/confirm">Checkout</a></td>
+    		</tr>
+    	{% endif %}
+    </table>
+    
+    </form>
+    
+{% else %}
+    <p>There are currently no CDs in your cart.</p>
+{% endif %}
+
+{% endblock content %}
+
+{% block sidebar %}
+
+{% endblock sidebar %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block menu %}
+<li><a href="/zenbicycle" class="first">Home</a></li>
+<li><a href="#">Details</a></li>
+{% endblock menu %}
+
+
+{% block content %}
+
+<div class="post">
+	<h2 class="title">Hello {{ account }}!</a></h2>
+	<div class="entry">
+		<p>Check your email to confirm the activation. There are {{ expiration_days }} days left to do it.</p>
+	</div>
+</div>
+
+{% endblock content %}

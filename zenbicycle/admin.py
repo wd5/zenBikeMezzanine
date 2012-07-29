@@ -1,4 +1,5 @@
-from zenbicycle.models import bicycle, AbstractModelBicycle
+from zenbicycle.models import bicycle, AbstractModelBicycle, bicycleList
+from mezzanine.pages.admin import PageAdmin
 from django.contrib import admin
 
 #class TrackInline(admin.TabularInline):
@@ -17,4 +18,4 @@ class AbstractModelBicycleAdmin(admin.ModelAdmin):
 
 admin.site.register(bicycle)
 admin.site.register(AbstractModelBicycle, AbstractModelBicycleAdmin)
-
+admin.site.register(bicycleList, PageAdmin)

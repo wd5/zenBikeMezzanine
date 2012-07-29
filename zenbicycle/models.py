@@ -4,6 +4,7 @@ from django.db import models
 from mezzanine.core.fields import FileField
 from mezzanine.core.models import Orderable, RichText
 from mezzanine.pages.models import Page
+from django.utils.translation import ugettext, ugettext_lazy as _
 
 class color(models.Model):
     name = models.CharField(max_length=10)
@@ -11,11 +12,12 @@ class color(models.Model):
         return self.name
 
 # класс модель вела 
-class AbstractModelBicycle(Page, RichText):
+class AbstractModelBicycle(Page):
     modelName = models.CharField(max_length=255)
-    firm = models.CharField(max_length=255)
+    firm = models.ForeignKey("bicycleFirm")
     year = models.IntegerField()
-    img = models.ImageField(upload_to="abstractBicycle")
+    image = models.CharField(_("Image"), max_length=100, blank=True, null=True)
+    #img = models.ImageField(upload_to="abstractBicycle")
     #img = ThumbnailImageField(upload_to='/img') # картинка
     features = models.TextField(blank=True) # характеринстика
     link = models.TextField(blank=True)
@@ -23,8 +25,8 @@ class AbstractModelBicycle(Page, RichText):
         return self.firm + ' ' + self.modelName
 
 # основной класс вела
-class bicycle(Page, RichText):
-    title = models.CharField(max_length=255)
+class bicycle(Page):
+   # title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     numberFrame = models.CharField(max_length=255)
     #img = ThumbnailImageField(upload_to='/img') # картинка
@@ -34,10 +36,22 @@ class bicycle(Page, RichText):
     def __unicode__(self):
         return self.title
 
-class incident(Page, RichText):
+class bicycleList(Page, RichText):
+    name = models.CharField(max_length=255)
+    bicl = models.ForeignKey(bicycle)
+    def __unicode__(self):
+        return self.name
+
+class incident(models.Model):
     date = models.DateTimeField()
     placeText = models.CharField(max_length=255)
     placeOnMap = models.CharField(max_length=255)
     comment = models.TextField()
     def __unicode__(self):
         return self.comment
+
+class bicycleFirm(models.Model):
+    firmName = models.CharField(max_length=255)
+    countryOfOrigin = models.CharField(max_length=255, blank=True, null=True)
+    def __unicode__(self):
+        return self.firmName

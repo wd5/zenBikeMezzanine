@@ -13,6 +13,9 @@ admin.autodiscover()
 
 urlpatterns = patterns("",
     ("^admin/", include(admin.site.urls)),
+    ("^shop/", include("cartridge.shop.urls")),
+    url("^account/orders/$", "cartridge.shop.views.order_history",
+        name="shop_order_history"),
 
     # We don't want to presume how your homepage works, so here are a
     # few patterns you can use to set it up.
@@ -31,17 +34,13 @@ urlpatterns = patterns("",
     # This pattern gives us a normal ``Page`` object, so that your
     # homepage can be managed via the page tree in the admin. If you
     # use this pattern, you'll need to create a page in the page tree,
-    # and specify its URL (in the Meta Data section) as "/", which
-    # is the value used below in the ``{"slug": "/"}`` part. Make
+    # and specify its URL (in the Meta Data section) as "home", which
+    # is the name used below in the ``{"slug": "home"}`` part. Make
     # sure to uncheck "show in navigation" when you create the page,
     # since the link to the homepage is always hard-coded into all the
-    # page menus that display navigation on the site. Also note that
-    # the normal rule of adding a custom template per page with the
-    # template name using the page's slug doesn't apply here, since
-    # we can't have a template called "/.html" - so for this case, the
-    # template "pages/index.html" can be used.
+    # page menus that display navigation on the site.
 
-    # url("^$", "mezzanine.pages.views.page", {"slug": "/"}, name="home"),
+    # url("^$", "mezzanine.pages.views.page", {"slug": "home"}, name="home"),
 
     # HOMEPAGE FOR A BLOG-ONLY SITE
     # -----------------------------

@@ -1,5 +1,72 @@
 
 ######################
+# CARTRIDGE SETTINGS #
+######################
+
+# The following settings are already defined in cartridge.conf.defaults
+# with default values, but are common enough to be put here, commented
+# out, for convenient overriding.
+
+# Sequence of available credit card types for payment.
+# SHOP_CARD_TYPES = ("Mastercard", "Visa", "Diners", "Amex")
+
+# If True, users must create a login for the checkout process.
+# SHOP_CHECKOUT_ACCOUNT_REQUIRED = False
+
+# Set an alternative OrderForm class for the checkout process.
+# SHOP_CHECKOUT_FORM_CLASS = 'cartridge.shop.forms.OrderForm'
+
+# If True, the checkout process is split into separate
+# billing/shipping and payment steps.
+# SHOP_CHECKOUT_STEPS_SPLIT = True
+
+# If True, the checkout process has a final confirmation step before
+# completion.
+# SHOP_CHECKOUT_STEPS_CONFIRMATION = True
+
+# If False, there is no payment step on the checkout process.
+# SHOP_PAYMENT_STEP_ENABLED = True
+
+# Controls the formatting of monetary values accord to the locale
+# module in the python standard library. If an empty string is
+# used, will fall back to the system's locale.
+# SHOP_CURRENCY_LOCALE = ""
+
+# Default cost of shipping when no custom shipping is implemented.
+# SHOP_DEFAULT_SHIPPING_VALUE = 10
+
+# Dotted package path and class name of the function that
+# is called on submit of the billing/shipping checkout step. This
+# is where shipping calculation can be performed and set using the
+# function ``cartridge.shop.utils.set_shipping``.
+# SHOP_HANDLER_BILLING_SHIPPING = \
+#                           "cartridge.shop.checkout.default_billship_handler"
+
+# Dotted package path and class name of the function that
+# is called once an order is successful and all of the order
+# object's data has been created. This is where any custom order
+# processing should be implemented.
+# SHOP_HANDLER_ORDER = "cartridge.shop.checkout.default_order_handler"
+
+# Dotted package path and class name of the function that
+# is called on submit of the payment checkout step. This is where
+# integration with a payment gateway should be implemented.
+# SHOP_HANDLER_PAYMENT = "cartridge.shop.checkout.default_payment_handler"
+
+# Sequence of value/name pairs for order statuses.
+# SHOP_ORDER_STATUS_CHOICES = (
+#     (1, "Unprocessed"),
+#     (2, "Processed"),
+# )
+
+# Sequence of value/name pairs for types of product options,
+# eg Size, Colour.
+# SHOP_OPTION_TYPE_CHOICES = (
+#     (1, "Size"),
+#     (2, "Colour"),
+# )
+
+######################
 # MEZZANINE SETTINGS #
 ######################
 
@@ -12,6 +79,8 @@
 # ADMIN_MENU_ORDER = (
 #     ("Content", ("pages.Page", "blog.BlogPost",
 #        "generic.ThreadedComment", ("Media Library", "fb_browse"),)),
+#     ("Shop", ("shop.Product", "shop.ProductOption", "shop.DiscountCode",
+#         "shop.Sale", "shop.Order")),
 #     ("Site", ("sites.Site", "redirects.Redirect", "conf.Setting")),
 #     ("Users", ("auth.User", "auth.Group",)),
 # )
@@ -73,7 +142,7 @@
 # ('/admin', '/example') would force all URLs beginning with
 # /admin or /example to run over SSL. Defaults to:
 #
-# SSL_FORCE_URL_PREFIXES = ("/admin", "/account")
+# SSL_FORCE_URL_PREFIXES = ("/admin", "/account", "/shop/checkout",)
 
 # If True, the south application will be automatically added to the
 # INSTALLED_APPS setting. This setting is not defined in
@@ -89,7 +158,7 @@ USE_SOUTH = True
 # In the format (('Full Name', 'email@example.com'),
 #                ('Full Name', 'anotheremail@example.com'))
 ADMINS = (
-     ('Alex Morozov', 'sky.fion@gmail.com'),
+    # ('Your Name', 'your_email@domain.com'),
 )
 MANAGERS = ADMINS
 
@@ -107,7 +176,7 @@ USE_TZ = True
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = "ru"
+LANGUAGE_CODE = "en"
 
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces
 # are displayed for error pages. Should always be set to ``False`` in
@@ -121,10 +190,10 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = "80dffddf-37d9-4835-aa41-e234e217fa675fa95159-b4a9-4bb5-ba05-5a6c8860fac7635a91de-1fc8-44fd-bc19-09e329aaaaf2"
+SECRET_KEY = "f2be8a4f-fd05-4656-92fb-de45cef602c758ed46cc-465f-41d7-b942-8beeb62e6a763bb51e88-aae6-495e-bfe5-d6bf655f8989"
 
 # Tuple of IP addresses, as strings, that:
 #   * See debug comments, when DEBUG is true
@@ -155,15 +224,15 @@ STATICFILES_FINDERS = (
 DATABASES = {
     "default": {
         # Add "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.",
         # DB name or path to database file if using sqlite3.
-        "NAME": "zenBicycleM",
+        "NAME": "",
         # Not used with sqlite3.
-        "USER": "root",
+        "USER": "",
         # Not used with sqlite3.
-        "PASSWORD": "iddqd",
+        "PASSWORD": "",
         # Set to empty string for localhost. Not used with sqlite3.
-        "HOST": "localhost",
+        "HOST": "",
         # Set to empty string for default. Not used with sqlite3.
         "PORT": "",
     }
@@ -234,6 +303,7 @@ INSTALLED_APPS = (
     "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
+    "cartridge.shop",
     "mezzanine.boot",
     "mezzanine.conf",
     "mezzanine.core",
@@ -243,9 +313,9 @@ INSTALLED_APPS = (
     "mezzanine.pages",
     "mezzanine.galleries",
     "mezzanine.twitter",
-   # "mezzanine.accounts",
-    "mezzanine.mobile",
+    "mezzanine.accounts",
     "zenbicycle"
+    #"mezzanine.mobile",
 )
 
 # List of processors used by RequestContext to populate the context.
@@ -266,22 +336,24 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 # these middleware classes will be applied in the order given, and in the
 # response phase the middleware will be applied in reverse order.
 MIDDLEWARE_CLASSES = (
+    "mezzanine.core.middleware.UpdateCacheMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.redirects.middleware.RedirectFallbackMiddleware",
-    "mezzanine.core.middleware.DeviceAwareUpdateCacheMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "cartridge.shop.middleware.ShopMiddleware",
     "mezzanine.core.request.CurrentRequestMiddleware",
     "mezzanine.core.middleware.TemplateForDeviceMiddleware",
     "mezzanine.core.middleware.TemplateForHostMiddleware",
-    "mezzanine.core.middleware.DeviceAwareFetchFromCacheMiddleware",
     "mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware",
-    "mezzanine.pages.middleware.PageMiddleware",
     # Uncomment the following if using any of the SSL settings:
     # "mezzanine.core.middleware.SSLRedirectMiddleware",
+    "mezzanine.pages.middleware.PageMiddleware",
+    "mezzanine.core.middleware.FetchFromCacheMiddleware",
 )
+
 
 # Store these package names here as they may change in the future since
 # at the moment we are using custom forks of them.
@@ -303,29 +375,6 @@ OPTIONAL_APPS = (
 )
 
 DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
-
-###################
-# DEPLOY SETTINGS #
-###################
-
-# These settings are used by the default fabfile.py provided.
-# Check fabfile.py for defaults.
-
-# FABRIC = {
-#     "SSH_USER": "", # SSH username
-#     "SSH_PASS":  "", # SSH password (consider key-based authentication)
-#     "SSH_KEY_PATH":  "", # Local path to SSH key file, for key-based auth
-#     "HOSTS": [], # List of hosts to deploy to
-#     "VIRTUALENV_HOME":  "", # Absolute remote path for virtualenvs
-#     "PROJECT_NAME": "", # Unique identifier for project
-#     "REQUIREMENTS_PATH": "", # Path to pip requirements, relative to project
-#     "GUNICORN_PORT": 8000, # Port gunicorn will listen on
-#     "LOCALE": "en_US.UTF-8", # Should end with ".UTF-8"
-#     "LIVE_HOSTNAME": "www.example.com", # Host for public site.
-#     "REPO_URL": "", # Git or Mercurial remote repo URL for the project
-#     "DB_PASS": "", # Live database password
-#     "ADMIN_PASS": "", # Live admin user password
-# }
 
 
 ##################

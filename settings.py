@@ -303,6 +303,7 @@ INSTALLED_APPS = (
     "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
+    "sorl.thumbnail",
     "cartridge.shop",
     "mezzanine.boot",
     "mezzanine.conf",

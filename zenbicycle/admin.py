@@ -16,13 +16,18 @@ from sorl.thumbnail.admin import AdminImageMixin
 #class bicycleFirmInline(admin.StackedInline):
 #    model = bicycleFirm
     #list_display = ('firmName')
-#class imagesListInline(AdminImageMixin, admin.TabularInline):
- #   model = imagesList
+class imagesListInline(AdminImageMixin, admin.TabularInline):
+    model = imagesList
 
 class AbstractModelBicycleAdmin(AdminImageMixin, admin.ModelAdmin):
-    list_display = ('modelName', 'year')
-   # inlines = [imagesListInline, ]
-'''   fieldsets = [
+    list_display = ('get_thumbnail_html', 'modelName', 'year')
+    list_display_links =  ['modelName', ]
+    inlines = [imagesListInline, ]
+'''
+      list_display = ['get_thumbnail_html', 'title', 'tags']
+    list_display_links = ['title', ]
+
+     fieldsets = [
         (None,               {'fields': ['title', 'author']}),
         ('Additional', {'fields': ['img'], 'classes': ['collapse']}),
     ]
@@ -39,7 +44,7 @@ class AbstractModelBicycleAdmin(AdminImageMixin, admin.ModelAdmin):
 
 
 admin.site.register(bicycle)
-admin.site.register(imagesList)
+#admin.site.register(imagesList)
 admin.site.register(AbstractModelBicycle, AbstractModelBicycleAdmin)
 admin.site.register(bicycleFirm)
 #admin.site.register(bicycleList, PageAdmin)

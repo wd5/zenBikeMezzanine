@@ -8,6 +8,7 @@ from mezzanine.pages.models import Page
 from mezzanine.utils.models import AdminThumbMixin
 from django.utils.translation import ugettext, ugettext_lazy as _
 from sorl.thumbnail import ImageField
+from sorl.thumbnail.shortcuts import get_thumbnail
 
 class color(models.Model):
     name = models.CharField(max_length=10)
@@ -17,19 +18,28 @@ class color(models.Model):
 class imagesList(models.Model):
     comment = models.CharField(max_length=255)
     image = ImageField(upload_to="bike")
+    bike = models.ForeignKey("AbstractModelBicycle")
 
 # класс модель вела 
 class AbstractModelBicycle(models.Model):
     modelName = models.CharField(max_length=255)
     firm = models.ForeignKey('bicycleFirm')
     year = models.IntegerField(blank=True, null=True)
-    image = models.ForeignKey(imagesList)
+    image = models.CharField(_("Image"), max_length=100, blank=True, null=True)
 
     # image = CharField(_("Image"), max_length=100, blank=True, null=True)
     #img = models.ImageField(upload_to="abstractBicycle")
     #img = ThumbnailImageField(upload_to='/img') # картинка
     features = models.TextField(blank=True) # характеринстика
     sitelink = models.TextField(blank=True)
+    def get_thumbnail_html(self):
+        img = self.image
+        img_resize_url = unicode(get_thumbnail(img, '100x100').url)
+        html = '<a class="image-picker" href="%s"><img src="%s" alt="%s"/></a>'
+        return html % (self.image.url, img_resize_url, self.modelName)
+    get_thumbnail_html.short_description = u'Миниатюра'
+    get_thumbnail_html.allow_tags = True
+
     def __unicode__(self):
         return self.modelName
 

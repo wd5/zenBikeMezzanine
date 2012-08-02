@@ -8,7 +8,8 @@ from mezzanine.pages.admin import PageAdmin
 from cartridge.shop.forms import ImageWidget
 from django.db.models import ImageField
 from sorl.thumbnail.admin import AdminImageMixin
-
+from django import forms
+from easy_maps.widgets import AddressWithMapWidget
 
 #class TrackInline(admin.TabularInline):
  #   model = Track
@@ -21,7 +22,7 @@ class imagesListInline(AdminImageMixin, admin.TabularInline):
 
 class AbstractModelBicycleAdmin(AdminImageMixin, admin.ModelAdmin):
     list_display = ('get_thumbnail_html', 'modelName', 'year')
-    list_display_links =  ['modelName', ]
+    list_display_links =  ['get_thumbnail_html', 'modelName', ]
     inlines = [imagesListInline, ]
 '''
       list_display = ['get_thumbnail_html', 'title', 'tags']
@@ -40,10 +41,15 @@ class AbstractModelBicycleAdmin(AdminImageMixin, admin.ModelAdmin):
     # Run again to allow for no images existing previously, with
     # new images added which can be used as defaults for variations.
 
+class bicycleAdmin(admin.ModelAdmin):
+    class form(forms.ModelForm):
+        class Meta:
+            widgets = {
+                'address': AddressWithMapWidget({'class': 'vTextField'})
+            }
 
 
-
-admin.site.register(bicycle)
+admin.site.register(bicycle, bicycleAdmin)
 #admin.site.register(imagesList)
 admin.site.register(AbstractModelBicycle, AbstractModelBicycleAdmin)
 admin.site.register(bicycleFirm)

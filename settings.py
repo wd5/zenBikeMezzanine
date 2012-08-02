@@ -289,6 +289,7 @@ ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
 # Don't forget to use absolute paths, not relative paths.
 TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
 
+EASY_MAPS_GOOGLE_KEY = "AIzaSyA47LzcX3VILthBW93snc_7IsS6Clhb_Fk"
 
 ################
 # APPLICATIONS #
@@ -315,6 +316,7 @@ INSTALLED_APPS = (
     "mezzanine.galleries",
     "mezzanine.twitter",
     "mezzanine.accounts",
+    "easy_maps",
     "zenbicycle"
     #"mezzanine.mobile",
 )

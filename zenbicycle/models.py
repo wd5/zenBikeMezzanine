@@ -6,6 +6,7 @@ from mezzanine.core.fields import FileField
 from mezzanine.core.models import Orderable, RichText
 from mezzanine.pages.models import Page
 from mezzanine.utils.models import AdminThumbMixin
+from mezzanine.galleries.models import GalleryImage
 from django.utils.translation import ugettext, ugettext_lazy as _
 from sorl.thumbnail import ImageField
 from sorl.thumbnail.shortcuts import get_thumbnail
@@ -45,26 +46,21 @@ class AbstractModelBicycle(models.Model):
 
 # основной класс вела
 class bicycle(models.Model):
-   # title = models.CharField(max_length=255)
-    author = models.CharField(max_length=255)
-    numberFrame = models.CharField(max_length=255)
+    owner = models.CharField(max_length=255)
+    numberFrame = models.CharField(max_length=255, blank=True, null=True)
+    numberID = models.CharField(max_length=50, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
     #img = ThumbnailImageField(upload_to='/img') # картинка
     comment = models.TextField(blank=True)
     colorBicycle = models.ManyToManyField(color, blank=True, null=True)
     modelBicycle = models.ForeignKey(AbstractModelBicycle)
     def __unicode__(self):
-        return self.title
+        return self.modelBicycle.modelName
 
-class bicycleList(Page, RichText):
-    name = models.CharField(max_length=255)
-    bicl = models.ForeignKey(bicycle)
-    def __unicode__(self):
-        return self.name
 
 class incident(models.Model):
     date = models.DateTimeField()
     placeText = models.CharField(max_length=255)
-    placeOnMap = models.CharField(max_length=255)
     comment = models.TextField()
     def __unicode__(self):
         return self.comment

@@ -12,7 +12,7 @@ from sorl.thumbnail import ImageField
 from sorl.thumbnail.shortcuts import get_thumbnail
 
 class color(models.Model):
-    name = models.CharField(max_length=10)
+    name = models.CharField(max_length=55, unique=True)
     def __unicode__(self):
         return self.name
 
@@ -52,8 +52,9 @@ class bicycle(models.Model):
     address = models.TextField(blank=True, null=True)
     #img = ThumbnailImageField(upload_to='/img') # картинка
     comment = models.TextField(blank=True)
-    colorBicycle = models.ManyToManyField(color, blank=True, null=True)
+    colorBicycle = models.ForeignKey(color, blank=True)
     modelBicycle = models.ForeignKey(AbstractModelBicycle)
+        
     def __unicode__(self):
         return self.modelBicycle.modelName
 

@@ -296,6 +296,7 @@ EASY_MAPS_GOOGLE_KEY = "AIzaSyA47LzcX3VILthBW93snc_7IsS6Clhb_Fk"
 ################
 
 INSTALLED_APPS = (
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -304,7 +305,7 @@ INSTALLED_APPS = (
     "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
-    "sorl.thumbnail",
+    "sorl.thumbnail",  # easy_install sorl-thumbnail
     "cartridge.shop",
     "mezzanine.boot",
     "mezzanine.conf",
@@ -316,10 +317,14 @@ INSTALLED_APPS = (
     "mezzanine.galleries",
     "mezzanine.twitter",
     "mezzanine.accounts",
-    "easy_maps",
-    "zenbicycle"
+    "easy_maps", #   easy_install 1) geopy  2) django-easy-maps
+   #  "colors", #   http://code.google.com/p/django-colors/ deploy\lib\Django-Colors-0.0.2-pre-alpha
+      # easy_install django-autocomplete-light
+    "zenbicycle",
+
     #"mezzanine.mobile",
 )
+
 
 # List of processors used by RequestContext to populate the context.
 # Each one should be a callable that takes the request object as its

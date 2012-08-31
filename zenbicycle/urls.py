@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 from django.shortcuts import *
-
+'''
 urlpatterns = patterns('put.zenbicycle.views',
     (r'^$', 'index'),
     (r'^cart/$', 'cart'),
@@ -12,3 +12,4 @@ urlpatterns = patterns('put.zenbicycle.views',
     (r'^(?P<cd_id>\d+)/cartremove/$', 'remove_from_cart'),
     (r'^covers/(?P<img>\d+\.([jJ][pP][gG]|[pP][nN][gG]|[gG][iI][fF]))/$', 'serve_covers')
 )
+'''

@@ -1,4 +1,6 @@
-from zenbicycle.models import bicycle, AbstractModelBicycle, bicycleFirm, imagesList
+from autocomplete.widgets import AutocompleteTabularInline, AutocompleteModelAdmin
+from zenbicycle.forms import bicycleForm
+from zenbicycle.models import bicycle, AbstractModelBicycle, bicycleFirm, imagesList, color
 from mezzanine.pages.admin import PageAdmin
 from django.contrib import admin
 
@@ -40,16 +42,34 @@ class AbstractModelBicycleAdmin(AdminImageMixin, admin.ModelAdmin):
 
     # Run again to allow for no images existing previously, with
     # new images added which can be used as defaults for variations.
+'''
+class bicycleInline(AutocompleteTabularInline ):
+    model = bicycle
+    extra=0
+    related_search_fields={
+                'colorBicycle':                 ( 'name', ),
+        }
 
 class bicycleAdmin(admin.ModelAdmin):
+    
     class form(forms.ModelForm):
         class Meta:
             widgets = {
                 'address': AddressWithMapWidget({'class': 'vTextField'})
             }
+'''
+
+
+class bicycleAdmin( AutocompleteModelAdmin ):
+  #  inlines = [inlineColor,]
+    form = bicycleForm
+    related_search_fields={
+                'colorBicycle':                 ( 'name', ),
+        }
 
 
 admin.site.register(bicycle, bicycleAdmin)
+#admin.site.register(color)
 #admin.site.register(imagesList)
 admin.site.register(AbstractModelBicycle, AbstractModelBicycleAdmin)
 admin.site.register(bicycleFirm)

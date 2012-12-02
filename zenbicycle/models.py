@@ -13,6 +13,11 @@ from sorl.thumbnail.shortcuts import get_thumbnail
 
 class color(models.Model):
     name = models.CharField(max_length=55, unique=True)
+    
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("id__iexact", "name__icontains",)
+
     def __unicode__(self):
         return self.name
 
@@ -26,7 +31,7 @@ class AbstractModelBicycle(models.Model):
     modelName = models.CharField(max_length=255)
     firm = models.ForeignKey('bicycleFirm')
     year = models.IntegerField(blank=True, null=True)
-    image = models.CharField(_("Image"), max_length=100, blank=True, null=True)
+    #image = models.CharField(_("Image"), max_length=100, blank=True, null=True)
 
     # image = CharField(_("Image"), max_length=100, blank=True, null=True)
     #img = models.ImageField(upload_to="abstractBicycle")
@@ -54,7 +59,7 @@ class bicycle(models.Model):
     comment = models.TextField(blank=True)
     colorBicycle = models.ForeignKey(color, blank=True)
     modelBicycle = models.ForeignKey(AbstractModelBicycle)
-        
+
     def __unicode__(self):
         return self.modelBicycle.modelName
 
@@ -71,6 +76,14 @@ class bicycleFirm(models.Model):
     countryOfOrigin = models.CharField(max_length=255, blank=True, null=True)
     def __unicode__(self):
         return self.firmName
+
+class bikeListMain(Page):
+    #dob = models.DateField("Date of birth")
+
+    class Meta:
+        verbose_name = "Bike list"
+        verbose_name_plural = "Bike lists"
+
 
 '''class Images(Orderable):
     """

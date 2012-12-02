@@ -149,7 +149,8 @@
 # mezzanine.conf.defaults as is the case with the above settings.
 USE_SOUTH = True
 
-
+GRAPPELLI_ADMIN_TITLE = 'Zen Bike Admin'
+AUTOCOMPLETE_LIMIT = 5
 ########################
 # MAIN DJANGO SETTINGS #
 ########################
@@ -215,7 +216,6 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
-
 
 #############
 # DATABASES #
@@ -321,7 +321,12 @@ INSTALLED_APPS = (
    #  "colors", #   http://code.google.com/p/django-colors/ deploy\lib\Django-Colors-0.0.2-pre-alpha
       # easy_install django-autocomplete-light
     "zenbicycle",
-
+   # for forum
+    "pagination",
+    "django_authopenid",
+    "djangobb_forum",
+    "haystack",
+  #  "django_messages",
     #"mezzanine.mobile",
 )
 
@@ -338,6 +343,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.request",
     "mezzanine.conf.context_processors.settings",
+    'django_authopenid.context_processors.authopenid',
+  #  'django_messages.context_processors.inbox',
+    "djangobb_forum.context_processors.forum_settings",
 )
 
 # List of middleware classes to use. Order is important; in the request phase,
@@ -352,6 +360,7 @@ MIDDLEWARE_CLASSES = (
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "cartridge.shop.middleware.ShopMiddleware",
+    "pagination.middleware.PaginationMiddleware",
     "mezzanine.core.request.CurrentRequestMiddleware",
     "mezzanine.core.middleware.TemplateForDeviceMiddleware",
     "mezzanine.core.middleware.TemplateForHostMiddleware",
@@ -384,6 +393,21 @@ OPTIONAL_APPS = (
 
 DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
 
+# Haystack settings
+HAYSTACK_SEARCH_ENGINE = 'whoosh'
+HAYSTACK_SITECONF='search_sites' #'djangobb_forum'
+HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_ROOT, 'djangobb_forum')
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}
+
+# Account settings
+#ACCOUNT_ACTIVATION_DAYS = 10
+LOGIN_REDIRECT_URL = '/f/'
+LOGIN_URL = '/accounts/login/'
 
 ##################
 # LOCAL SETTINGS #

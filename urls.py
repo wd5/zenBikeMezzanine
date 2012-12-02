@@ -4,6 +4,17 @@ from django.contrib import admin
 
 from mezzanine.core.views import direct_to_template
 
+from registration.forms import RegistrationFormUniqueEmail
+from djangobb_forum import settings as forum_settings
+from django_authopenid.urls import urlpatterns as authopenid_urlpatterns
+import settings
+from sitemap import SitemapForum, SitemapTopic
+
+# for forum
+for i, rurl in enumerate(authopenid_urlpatterns):
+    if rurl.name == 'registration_register':
+        authopenid_urlpatterns[i].default_args.update({'form_class': RegistrationFormUniqueEmail})
+        break
 
 admin.autodiscover()
 
@@ -11,9 +22,17 @@ admin.autodiscover()
 # You can also change the ``home`` view to add your own functionality
 # to the project's homepage.
 
+sitemaps = {
+    'forum': SitemapForum,
+    'topic': SitemapTopic,
+}
+
 urlpatterns = patterns("",
     ("^admin/", include(admin.site.urls)),
     ("^shop/", include("cartridge.shop.urls")),
+    (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
+    (r'^f/account/', include('django_authopenid.urls')),
+    ("^f/", include("zenBikeMezzanine.djangobb_forum.urls",namespace="djangobb")),
     url("^account/orders/$", "cartridge.shop.views.order_history",
         name="shop_order_history"),
 
@@ -65,6 +84,18 @@ urlpatterns = patterns("",
     ("^", include("mezzanine.urls")),
 
 )
+
+# PM Extension
+if (forum_settings.PM_SUPPORT):
+    urlpatterns += patterns('',
+        (r'^f/pm/', include('django_messages.urls')),
+   )
+
+if (settings.DEBUG):
+    urlpatterns += patterns('',
+        (r'^%s(?P<path>.*)$' % settings.MEDIA_URL.lstrip('/'),
+            'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+    )
 
 # Adds ``STATIC_URL`` to the context of error pages, so that error
 # pages can use JS, CSS and images.

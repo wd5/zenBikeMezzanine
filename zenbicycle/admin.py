@@ -1,6 +1,6 @@
 from autocomplete.widgets import AutocompleteTabularInline, AutocompleteModelAdmin
 from zenbicycle.forms import bicycleForm
-from zenbicycle.models import bicycle, AbstractModelBicycle, bicycleFirm, imagesList, color
+from zenbicycle.models import bicycle, AbstractModelBicycle, bicycleFirm, imagesList, color, bikeListMain
 from mezzanine.pages.admin import PageAdmin
 from django.contrib import admin
 
@@ -19,6 +19,7 @@ from easy_maps.widgets import AddressWithMapWidget
 #class bicycleFirmInline(admin.StackedInline):
 #    model = bicycleFirm
     #list_display = ('firmName')
+
 class imagesListInline(AdminImageMixin, admin.TabularInline):
     model = imagesList
 
@@ -60,16 +61,16 @@ class bicycleAdmin(admin.ModelAdmin):
 '''
 
 
-class bicycleAdmin( AutocompleteModelAdmin ):
+#class bicycleAdmin( AutocompleteModelAdmin ):
   #  inlines = [inlineColor,]
-    form = bicycleForm
-    related_search_fields={
-                'colorBicycle':                 ( 'name', ),
-        }
+   # form = bicycleForm
+   # related_search_fields={
+   #             'colorBicycle':                 ( 'name', ),
+   #     }
 
-
-admin.site.register(bicycle, bicycleAdmin)
-#admin.site.register(color)
+admin.site.register(bikeListMain, PageAdmin)
+admin.site.register(bicycle)
+admin.site.register(color)
 #admin.site.register(imagesList)
 admin.site.register(AbstractModelBicycle, AbstractModelBicycleAdmin)
 admin.site.register(bicycleFirm)

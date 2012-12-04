@@ -1,0 +1,52 @@
+{% extends "pages/page.html" %}
+
+{% load i18n %}
+
+{% block body_id %}bike{% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/zenbike.css">
+{% endblock %}
+
+{% block main %}
+    <div>
+    <h1 class="btexthead">{% trans "bike card" %}</h1>
+    <a class="btn blistheadbtn" href="/bikelist">{% trans "return list" %}</a>
+    </div>
+
+    <div class="bcard">
+        <dl  class="dl-horizontal">
+          {% if bicycle.numberID != "" %}
+                <dt>{% trans "id" %}</dt>
+                <dd>{{ bicycle.numberID }}</dd>
+          {% endif %}
+          {% if bicycle.owner != "" %}
+                 <dt>{% trans "owner" %}</dt>
+                 <dd>{{ bicycle.owner }}</dd>
+          {% endif %}
+          {% if bicycle.numberFrame != "" %}
+                  <dt>{% trans "serial" %}</dt>
+                  <dd>{{ bicycle.numberFrame }}</dd>
+          {% endif %}
+          {% if bicycle.modelBicycle != "" %}
+                  <dt>{% trans "model" %}</dt>
+                  <dd>{{ bicycle.modelBicycle }}</dd>
+          {% endif %}
+          {% if bicycle.colorBicycle != "" %}
+                  <dt>{% trans "color" %}</dt>
+                  <dd>{{ bicycle.colorBicycle }}</dd>
+          {% endif %}
+          {% if bicycle.comment != "" %}
+                   <dt>{% trans "comment" %}</dt>
+                   <dd>{{ bicycle.comment }}</dd>
+          {% endif %}
+          {% if bicycle.address != "" %}
+               <dt>{% trans "address" %}</dt>
+               <dd>{{ bicycle.address }}</dd>
+           {% endif %}
+        </dl>
+    </div>
+{% endblock %}

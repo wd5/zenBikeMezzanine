@@ -326,7 +326,7 @@ INSTALLED_APPS = (
     "django_authopenid",
     "djangobb_forum",
     "haystack",
-  #  "django_messages",
+    "django_messages",
     #"mezzanine.mobile",
 )
 
@@ -344,7 +344,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     "mezzanine.conf.context_processors.settings",
     'django_authopenid.context_processors.authopenid',
-  #  'django_messages.context_processors.inbox',
+    'django_messages.context_processors.inbox',
     "djangobb_forum.context_processors.forum_settings",
 )
 

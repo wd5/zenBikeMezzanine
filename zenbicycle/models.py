@@ -47,7 +47,11 @@ class AbstractModelBicycle(models.Model):
     get_thumbnail_html.allow_tags = True
 
     def __unicode__(self):
-        return self.modelName
+        if self.year <> None:
+            return u'%s %s %s' % (self.firm.firmName, self.modelName, self.year)
+        else:
+            return u'%s %s' % (self.firm.firmName, self.modelName)
+        
 
 # основной класс вела
 class bicycle(models.Model):
@@ -78,8 +82,8 @@ class bicycleFirm(models.Model):
         return self.firmName
 
 class bikeListMain(Page):
-    #dob = models.DateField("Date of birth")
-
+    bicycles = bicycle.objects.all()
+    test = "test 444"
     class Meta:
         verbose_name = "Bike list"
         verbose_name_plural = "Bike lists"

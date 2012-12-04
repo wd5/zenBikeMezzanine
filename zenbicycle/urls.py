@@ -1,5 +1,11 @@
-from django.conf.urls.defaults import *
-from django.shortcuts import *
+from django.conf.urls.defaults import patterns, url
+
+urlpatterns = patterns('zenbicycle.views',
+    # ...
+    (r'^$', "bikelist"),
+    (r'^bike/$', "bike"),
+    # ...
+)
 '''
 urlpatterns = patterns('put.zenbicycle.views',
     (r'^$', 'index'),

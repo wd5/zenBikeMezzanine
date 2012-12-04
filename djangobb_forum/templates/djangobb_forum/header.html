@@ -23,8 +23,12 @@
 					{% if forum_settings.PM_SUPPORT %}
 						<li id="navpm"><a href="{% url messages_inbox %}">{% trans "PM" %}</a></li> 
 					{% endif %}
+					<li id="navlogout"><a href="{% url user_signout %}?next={{ request.path }}">{% trans "Log out" %}</a></li>
+				{% else %}
+					<li><a href="{% url user_signin %}">{% trans "Log in" %}</a></li>
+					<li><a href="{% url registration_register %}">{% trans "Sign up" %}</a></li>
 				{% endif %}
-			{% endblock %}
+				{% endblock %}
 			</ul>
 		</div>
 		<div id="brdwelcome" class="inbox">

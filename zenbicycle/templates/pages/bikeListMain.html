@@ -1,0 +1,53 @@
+{% extends "pages/page.html" %}
+
+{% load i18n %}
+
+{% block body_id %}bikeListMain{% endblock %}
+
+{% block extra_head %}
+<style>
+.blistheadbtn {float: right;}
+</style>
+{% endblock %}
+
+{% block main %}
+{% comment %} <link rel="stylesheet" href="{{ STATIC_URL }}zenbike/zenbike.css"> {% endcomment %}
+{% block extrahead %}
+{{ block.super }}
+
+{% endblock %}
+
+<div class="btn-group blistheadbtn">
+  <a class="btn" href="#"><i class="icon-th-large"></i></a>
+  <a class="btn" href="#"><i class="icon-th"></i></a>
+</div>
+
+<table class="table table-striped">
+<!--<caption></caption> -->
+  <thead>
+    <tr>
+      <th>{% trans "id" %}</th>
+      <th>{% trans "model" %}</th>
+      <th>{% trans "color" %}</th>
+      <th>{% trans "serial" %}</th>
+      <th>{% trans "review" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for bicycle in bicycles %}
+    <tr>
+      <td>{{ bicycle.numberID }}</td>
+      <td>{{ bicycle.modelBicycle }}</td>
+      <td>{{ bicycle.colorBicycle }}</td>
+      <td>{{ bicycle.numberFrame }}</td>
+      <td><a class="btn btn-mini" href="bike/?id={{ bicycle.id }}"><i class="icon-info-sign"></i></a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+
+</table>
+
+
+
+
+{% endblock %}

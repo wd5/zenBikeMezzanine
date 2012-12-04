@@ -12,8 +12,8 @@ from sitemap import SitemapForum, SitemapTopic
 
 # for forum
 for i, rurl in enumerate(authopenid_urlpatterns):
-    if rurl.name == 'registration_register':
-        authopenid_urlpatterns[i].default_args.update({'form_class': RegistrationFormUniqueEmail})
+    if rurl.name == "registration_register":
+        authopenid_urlpatterns[i].default_args.update({"form_class": RegistrationFormUniqueEmail})
         break
 
 admin.autodiscover()
@@ -23,15 +23,16 @@ admin.autodiscover()
 # to the project's homepage.
 
 sitemaps = {
-    'forum': SitemapForum,
-    'topic': SitemapTopic,
+    "forum": SitemapForum,
+    "topic": SitemapTopic,
 }
 
 urlpatterns = patterns("",
     ("^admin/", include(admin.site.urls)),
     ("^shop/", include("cartridge.shop.urls")),
-    (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
-    (r'^f/account/', include('django_authopenid.urls')),
+    ("^bikelist/", include("zenbicycle.urls")),
+    (r"^sitemap.xml$", "django.contrib.sitemaps.views.sitemap", {"sitemaps": sitemaps}),
+    (r"^f/account/", include("django_authopenid.urls")),
     ("^f/", include("zenBikeMezzanine.djangobb_forum.urls",namespace="djangobb")),
     url("^account/orders/$", "cartridge.shop.views.order_history",
         name="shop_order_history"),
@@ -71,17 +72,6 @@ urlpatterns = patterns("",
 
     # url("^$", "mezzanine.blog.views.blog_post_list", name="home"),
 
-    # MEZZANINE'S URLS
-    # ----------------
-    # Note: ADD YOUR OWN URLPATTERNS *ABOVE* THE LINE BELOW.
-    # ``mezzanine.urls`` INCLUDES A *CATCH ALL* PATTERN
-    # FOR PAGES, SO URLPATTERNS ADDED BELOW ``mezzanine.urls``
-    # WILL NEVER BE MATCHED!
-    # If you'd like more granular control over the patterns in
-    # ``mezzanine.urls``, go right ahead and take the parts you want
-    # from it, and use them directly below instead of using
-    # ``mezzanine.urls``.
-    ("^", include("mezzanine.urls")),
 
 )
 
@@ -96,6 +86,11 @@ if (settings.DEBUG):
         (r'^%s(?P<path>.*)$' % settings.MEDIA_URL.lstrip('/'),
             'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     )
+
+urlpatterns += patterns('',
+        ("^", include("mezzanine.urls")),
+
+)
 
 # Adds ``STATIC_URL`` to the context of error pages, so that error
 # pages can use JS, CSS and images.

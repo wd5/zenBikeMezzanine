@@ -1,6 +1,6 @@
 from autocomplete.widgets import AutocompleteTabularInline, AutocompleteModelAdmin
 from zenbicycle.forms import bicycleForm
-from zenbicycle.models import bicycle, AbstractModelBicycle, bicycleFirm, imagesList, color, bikeListMain
+from zenbicycle.models import bicycle, AbstractModelBicycle, bicycleFirm, imagesList, color, bikeListMain, city
 from mezzanine.pages.admin import PageAdmin
 from django.contrib import admin
 
@@ -71,6 +71,7 @@ class bicycleAdmin(admin.ModelAdmin):
 admin.site.register(bikeListMain, PageAdmin)
 admin.site.register(bicycle)
 admin.site.register(color)
+admin.site.register(city)
 #admin.site.register(imagesList)
 admin.site.register(AbstractModelBicycle, AbstractModelBicycleAdmin)
 admin.site.register(bicycleFirm)

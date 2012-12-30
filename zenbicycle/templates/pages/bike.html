@@ -8,15 +8,15 @@
 {% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/zenbike.css">
+  
 {% endblock %}
 
 {% block main %}
-    <div>
-    <h1 class="btexthead">{% trans "bike card" %}</h1>
-    <a class="btn blistheadbtn" href="/bikelist">{% trans "return list" %}</a>
-    </div>
-
+  <form>
+  <fieldset>
+    <legend>
+       {% trans "bike card" %}
+    </legend>
     <div class="bcard">
         <dl  class="dl-horizontal">
           {% if bicycle.numberID != "" %}
@@ -48,5 +48,10 @@
                <dd>{{ bicycle.address }}</dd>
            {% endif %}
         </dl>
+
     </div>
+    <a class="btn " href="/bikelist">{% trans "return list" %}</a>
+  </fieldset>
+  </form>
+  </form>
 {% endblock %}

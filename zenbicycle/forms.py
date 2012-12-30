@@ -14,6 +14,8 @@ class bicycleForm(ModelForm):
         model=bicycle
         exclude = ('colorBicycle')
 
-
+'''class AddBikeForm(ModelForm):
+    numberFrame = forms.IntegerField()
+'''
 
   

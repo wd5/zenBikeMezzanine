@@ -315,7 +315,7 @@ INSTALLED_APPS = (
     "mezzanine.forms",
     "mezzanine.pages",
     "mezzanine.galleries",
-    "mezzanine.twitter",
+  #  "mezzanine.twitter",
     "mezzanine.accounts",
     "easy_maps", #   easy_install 1) geopy  2) django-easy-maps
    #  "colors", #   http://code.google.com/p/django-colors/ deploy\lib\Django-Colors-0.0.2-pre-alpha
@@ -327,10 +327,13 @@ INSTALLED_APPS = (
     "djangobb_forum",
     "haystack",
     "django_messages",
+    #geonames.org
+    "geo",
+    "cities_light",
     #"mezzanine.mobile",
 )
 
-
+CSRF_FAILURE_VIEW = False
 # List of processors used by RequestContext to populate the context.
 # Each one should be a callable that takes the request object as its
 # only parameter and returns a dictionary to add to the context.
@@ -346,6 +349,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django_authopenid.context_processors.authopenid',
     'django_messages.context_processors.inbox',
     "djangobb_forum.context_processors.forum_settings",
+    "django.core.context_processors.csrf",
 )
 
 # List of middleware classes to use. Order is important; in the request phase,
@@ -358,6 +362,7 @@ MIDDLEWARE_CLASSES = (
     "django.contrib.redirects.middleware.RedirectFallbackMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    
     "django.contrib.messages.middleware.MessageMiddleware",
     "cartridge.shop.middleware.ShopMiddleware",
     "pagination.middleware.PaginationMiddleware",

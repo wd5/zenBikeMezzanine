@@ -10,6 +10,7 @@ from mezzanine.galleries.models import GalleryImage
 from django.utils.translation import ugettext, ugettext_lazy as _
 from sorl.thumbnail import ImageField
 from sorl.thumbnail.shortcuts import get_thumbnail
+from django.contrib.auth.models import User
 
 class color(models.Model):
     name = models.CharField(max_length=55, unique=True)
@@ -18,6 +19,11 @@ class color(models.Model):
     def autocomplete_search_fields():
         return ("id__iexact", "name__icontains",)
 
+    def __unicode__(self):
+        return self.name
+
+class city(models.Model):
+    name = models.CharField(max_length=100)
     def __unicode__(self):
         return self.name
 
@@ -55,17 +61,28 @@ class AbstractModelBicycle(models.Model):
 
 # основной класс вела
 class bicycle(models.Model):
-    owner = models.CharField(max_length=255)
+    mainOwner = models.ForeignKey(User)
+   # owner = models.CharField(max_length=255, blank=True)
     numberFrame = models.CharField(max_length=255, blank=True, null=True)
+    size_frame = models.IntegerField(blank=True, null=True)
     numberID = models.CharField(max_length=50, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
+    brake_type = models.CharField(max_length=1, blank=True, choices=(('d', 'disk'), ('r', 'v-brake'), ('o', 'other')))
     #img = ThumbnailImageField(upload_to='/img') # картинка
     comment = models.TextField(blank=True)
-    colorBicycle = models.ForeignKey(color, blank=True)
+    colorBicycle = models.ForeignKey(color, blank=True, null=True)
     modelBicycle = models.ForeignKey(AbstractModelBicycle)
+    status = models.CharField(max_length=1, choices=(('o', 'owner'),('s', 'stolen')))
+    incidents = models.ManyToManyField('incident', blank=True, null=True)
+    moderate = models.BooleanField(default=False)
+    city = models.ForeignKey("city")
 
     def __unicode__(self):
-        return self.modelBicycle.modelName
+        if self.modelBicycle:
+            return self.modelBicycle.modelName
+        else:
+            return u'%s %s' (self.id, self.comment)
+
 
 
 class incident(models.Model):

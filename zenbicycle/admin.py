@@ -1,17 +1,9 @@
-from autocomplete.widgets import AutocompleteTabularInline, AutocompleteModelAdmin
-from zenbicycle.forms import bicycleForm
+
 from zenbicycle.models import bicycle, AbstractModelBicycle, bicycleFirm, imagesList, color, bikeListMain, city
-from mezzanine.pages.admin import PageAdmin
 from django.contrib import admin
-
-from mezzanine.core.admin import DisplayableAdmin, TabularDynamicInlineAdmin
 from mezzanine.pages.admin import PageAdmin
-
-from cartridge.shop.forms import ImageWidget
-from django.db.models import ImageField
 from sorl.thumbnail.admin import AdminImageMixin
-from django import forms
-from easy_maps.widgets import AddressWithMapWidget
+from django.utils.translation import ugettext_lazy as _
 
 #class TrackInline(admin.TabularInline):
  #   model = Track
@@ -24,9 +16,11 @@ class imagesListInline(AdminImageMixin, admin.TabularInline):
     model = imagesList
 
 class AbstractModelBicycleAdmin(AdminImageMixin, admin.ModelAdmin):
-    list_display = ('get_thumbnail_html', 'modelName', 'year')
+    list_display = ('get_thumbnail_html','firm' ,'modelName', 'year')
+    list_filter = ('firm',)
     list_display_links =  ['get_thumbnail_html', 'modelName', ]
     inlines = [imagesListInline, ]
+    actions = [admin.actions.delete_selected]
 '''
       list_display = ['get_thumbnail_html', 'title', 'tags']
     list_display_links = ['title', ]
@@ -50,15 +44,23 @@ class bicycleInline(AutocompleteTabularInline ):
     related_search_fields={
                 'colorBicycle':                 ( 'name', ),
         }
-
-class bicycleAdmin(admin.ModelAdmin):
-    
-    class form(forms.ModelForm):
-        class Meta:
-            widgets = {
-                'address': AddressWithMapWidget({'class': 'vTextField'})
-            }
 '''
+class bicycleAdmin(admin.ModelAdmin):
+    list_display = ('modelBicycle', 'numberFrame', 'colorBicycle', 'size_frame', 'brake_type' , 'mainOwner', 'status', 'city', 'numberID', 'moderate')
+    list_filter = ('city', 'moderate')
+    actions = [admin.actions.delete_selected, 'make_moderate']
+    
+    def make_moderate(self, request, queryset):
+        queryset.update(moderate=True)
+    make_moderate.short_description = _("Mark as inspection")
+    
+
+ #   class form(forms.ModelForm):
+ #       class Meta:
+ #           widgets = {
+ #               'address': AddressWithMapWidget({'class': 'vTextField'})
+ #           }
+
 
 
 #class bicycleAdmin( AutocompleteModelAdmin ):
@@ -69,7 +71,7 @@ class bicycleAdmin(admin.ModelAdmin):
    #     }
 
 admin.site.register(bikeListMain, PageAdmin)
-admin.site.register(bicycle)
+admin.site.register(bicycle, bicycleAdmin)
 admin.site.register(color)
 admin.site.register(city)
 #admin.site.register(imagesList)

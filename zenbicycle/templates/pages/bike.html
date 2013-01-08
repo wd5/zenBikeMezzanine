@@ -16,7 +16,10 @@
   <fieldset>
     <legend>
        {% trans "bike card" %}
-    </legend>
+   </legend>
+  {% if img_mode %}
+   <img src="{{ imgs }}" alt="">
+  {% endif %}
     <div class="bcard">
         <dl  class="dl-horizontal">
           {% if bicycle.numberID != "" %}

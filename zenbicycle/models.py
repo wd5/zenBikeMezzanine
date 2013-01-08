@@ -7,6 +7,7 @@ from mezzanine.core.models import Orderable, RichText
 from mezzanine.pages.models import Page
 from mezzanine.utils.models import AdminThumbMixin
 from mezzanine.galleries.models import GalleryImage
+from mezzanine.core.managers import SearchableManager
 from django.utils.translation import ugettext, ugettext_lazy as _
 from sorl.thumbnail import ImageField
 from sorl.thumbnail.shortcuts import get_thumbnail
@@ -14,16 +15,20 @@ from django.contrib.auth.models import User
 
 class color(models.Model):
     name = models.CharField(max_length=55, unique=True)
-    
-    @staticmethod
-    def autocomplete_search_fields():
-        return ("id__iexact", "name__icontains",)
+    class Meta:
+        verbose_name = _("color")
+        verbose_name_plural = _("colors")
 
     def __unicode__(self):
         return self.name
 
 class city(models.Model):
     name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = _("city")
+        verbose_name_plural = _("cities")
+
     def __unicode__(self):
         return self.name
 
@@ -31,6 +36,10 @@ class imagesList(models.Model):
     comment = models.CharField(max_length=255)
     image = ImageField(upload_to="bike")
     bike = models.ForeignKey("AbstractModelBicycle")
+
+class imagesListForBike(models.Model):
+    image = ImageField(upload_to="UserBike")
+    bike = models.ForeignKey('bicycle')
 
 # класс модель вела 
 class AbstractModelBicycle(models.Model):
@@ -44,6 +53,10 @@ class AbstractModelBicycle(models.Model):
     #img = ThumbnailImageField(upload_to='/img') # картинка
     features = models.TextField(blank=True) # характеринстика
     sitelink = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = _("bike model")
+
     def get_thumbnail_html(self):
         img = self.image
         img_resize_url = unicode(get_thumbnail(img, '100x100').url)
@@ -57,25 +70,32 @@ class AbstractModelBicycle(models.Model):
             return u'%s %s %s' % (self.firm.firmName, self.modelName, self.year)
         else:
             return u'%s %s' % (self.firm.firmName, self.modelName)
-        
+
 
 # основной класс вела
 class bicycle(models.Model):
-    mainOwner = models.ForeignKey(User)
+    mainOwner = models.ForeignKey(User, verbose_name=_("Owner"))
    # owner = models.CharField(max_length=255, blank=True)
-    numberFrame = models.CharField(max_length=255, blank=True, null=True)
-    size_frame = models.IntegerField(blank=True, null=True)
-    numberID = models.CharField(max_length=50, blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
-    brake_type = models.CharField(max_length=1, blank=True, choices=(('d', 'disk'), ('r', 'v-brake'), ('o', 'other')))
+    numberFrame = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Frame number"))
+    size_frame = models.IntegerField(blank=True, null=True, verbose_name=_("Size frame"))
+    numberID = models.CharField(max_length=50, blank=True, null=True, verbose_name=_("Extra ID number"), default="-")
+   # address = models.TextField(blank=True, null=True, verbose_name=_("Address"))
+    brake_type = models.CharField(max_length=1, blank=True, choices=(('d', 'disk'), ('r', 'v-brake'), ('o', 'other')), verbose_name=_("Brake type"))
     #img = ThumbnailImageField(upload_to='/img') # картинка
-    comment = models.TextField(blank=True)
-    colorBicycle = models.ForeignKey(color, blank=True, null=True)
-    modelBicycle = models.ForeignKey(AbstractModelBicycle)
-    status = models.CharField(max_length=1, choices=(('o', 'owner'),('s', 'stolen')))
-    incidents = models.ManyToManyField('incident', blank=True, null=True)
-    moderate = models.BooleanField(default=False)
-    city = models.ForeignKey("city")
+    comment = models.TextField(blank=True, verbose_name=_("Comment"))
+    colorBicycle = models.ForeignKey(color, blank=True, null=True, verbose_name="Color Bicycle")
+    modelBicycle = models.ForeignKey(AbstractModelBicycle, verbose_name="Model Bicycle")
+    status = models.CharField(max_length=1, choices=(('o', 'owner'),('s', 'stolen')), verbose_name="Status")
+    incidents = models.ManyToManyField('incident', blank=True, null=True, verbose_name=_("incidents"))
+    moderate = models.BooleanField(default=False, verbose_name=_("moderate"))
+    city = models.ForeignKey("city", verbose_name=_("City"))
+
+    objects = SearchableManager()
+    search_fields = ("modelBicycle", "numberFrame", "comment")
+
+    class Meta:
+        verbose_name = _("bicycle")
+        verbose_name_plural = _("bicycles")
 
     def __unicode__(self):
         if self.modelBicycle:
@@ -93,17 +113,21 @@ class incident(models.Model):
         return self.comment
 
 class bicycleFirm(models.Model):
-    firmName = models.CharField(max_length=255)
-    countryOfOrigin = models.CharField(max_length=255, blank=True, null=True)
+    firmName = models.CharField(max_length=255, verbose_name=_("Firm name"))
+    countryOfOrigin = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Country"))
+
+    class Meta:
+        verbose_name = _("firm")
+        verbose_name_plural = _("firms")
+
     def __unicode__(self):
         return self.firmName
 
 class bikeListMain(Page):
     bicycles = bicycle.objects.all()
-    test = "test 444"
     class Meta:
-        verbose_name = "Bike list"
-        verbose_name_plural = "Bike lists"
+        verbose_name = _("Bike list")
+        verbose_name_plural = _("Bike lists")
 
 
 '''class Images(Orderable):

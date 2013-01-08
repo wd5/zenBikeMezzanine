@@ -3,9 +3,8 @@ from django.conf.urls.defaults import patterns, url
 urlpatterns = patterns('zenbicycle.views',
     # ...
     (r'^$', "bikelist"),
-    (r'^bike/$', "bike"), # todo : add normal url !
+    (r'^bike/(\d+)$', "bike"), 
     (r'^addbike/$', "addbike"),
-    (r'^actaddbike/$', "actaddbike"),
     (r'^ajax/getmodel/$', 'feeds_bikemodel'),
     # ...
 )

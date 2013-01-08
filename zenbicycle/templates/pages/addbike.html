@@ -25,20 +25,20 @@
     })
   })
 
-
-    $(document).ready(function(){
+  $(document).ready(function(){
         $('#stolenblock').hide(); // Для скрытия блока (с инфой о пропаже)
-        $('#checkbox_stolen').change(function(){
+        $('#id_chk_stolen').change(function(){
             $('#stolenblock').fadeToggle();
             });
-    })
+   })
+
   $(function() {
       //  function log( message ) {
      //       $( "<div>" ).text( message ).prependTo( "#log" );
      //      $( "#log" ).scrollTop( 0 );
      //   }
 
-        $( "#city" ).autocomplete({
+        $( "#id_city" ).autocomplete({
             source: function( request, response ) {
                 $.ajax({
                     url: "http://ws.geonames.org/searchJSON",
@@ -92,64 +92,14 @@
     <a class="btn blistheadbtn" href="/bikelist">{% trans "return list" %}</a>
     </div>
 {% endcomment %}
-  <form action="/bikelist/actaddbike/" method="post"> {% csrf_token %}
-  <!--  <fieldset> -->
+
+{% if not commit %}
+  <form enctype="multipart/form-data" action="" method="post"> {% csrf_token %}
+
         <legend>{% trans "add bike" %}</legend>
 
-        <label>{% trans "frame number" %}</label>
-        <input type="text"  name="num_frame">
-        <div class="controls">
-            <label>{% trans "firm" %}</label>
-            <select id="id_firm" name="firm">
-                  <option value="">--------&nbsp;</option>
-                {% for firm in bicycleFirms %}
-                  <option value="{{ firm.id }}">{{ firm.firmName }}</option>
-                {% endfor %}
+        {{ formset }}
 
-            </select>
-            <span class="help-inline">{% trans "If you do not see the desired item then enter it in the additional information" %}</span>
-        </div>
-        <label>{% trans "model" %}</label>
-        <select id="id_model">
-                <option value="">--------&nbsp;</option>
-        </select>
-
-        <label>{% trans "frame size" %}</label>
-        <select>
-            <option value="">--------&nbsp;</option>
-            {% for size in sizes  %}
-            <option value="{{ size }}">{{ size }} "</option>
-           {% endfor %}
-
-        </select>
-
-        <label>{% trans "color" %}</label>
-        <select>
-            {% for color in colors %}
-              <option>{{ color.name }}</option>
-            {% endfor %}
-        </select>
-
-        <label>{% trans "brake type" %}</label>
-        <select>
-                <option>--------&nbsp;</option>
-                <option value="1">{% trans "disk" %}</option>
-                <option value="2">{% trans "v-brake" %} </option>
-                <option value="3">{% trans "other" %}</option>
-        </select>
-
-        <label>{% trans "city" %}</label>
-        <input id="city" type="text" name="city">
-
-        <label>{% trans "additional information" %}</label>
-        <textarea rows="2"></textarea>
-
-        <label>{% trans "select photo" %}</label>
-        <input type="file" name="field_5" id="id_field_5">
-
-        <label class="checkbox" id="checkbox_stolen">
-            <input type="checkbox"> {% trans "stolen" %}
-        </label>
         <div id="stolenblock">
              <label>{% trans "Address" %}</label>
             <input type="text"  name="num_frame">
@@ -159,12 +109,15 @@
             </label>
 
              <label>{% trans "notes on the incident" %}</label>
-            <textarea rows="2"></textarea>
+            <textarea rows="2" name="stolen_notes"></textarea>
         </div>
-  <!--  </fieldset> -->
+
     <div class="form-actions">
         <input class="btn btn-primary btn-large" type="submit" value={% trans "Submit" %}>
     </div>
 
    </form>
+{% else %}
+    <h1> Готово !</h1>
+{% endif %}
 {% endblock %}

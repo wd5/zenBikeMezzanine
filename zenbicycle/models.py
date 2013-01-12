@@ -6,7 +6,7 @@ from mezzanine.core.fields import FileField
 from mezzanine.core.models import Orderable, RichText
 from mezzanine.pages.models import Page
 from mezzanine.utils.models import AdminThumbMixin
-from mezzanine.galleries.models import GalleryImage
+from mezzanine.galleries.models import GalleryImage, Gallery
 from mezzanine.core.managers import SearchableManager
 from django.utils.translation import ugettext, ugettext_lazy as _
 from sorl.thumbnail import ImageField
@@ -39,7 +39,7 @@ class imagesList(models.Model):
 
 class imagesListForBike(models.Model):
     image = ImageField(upload_to="UserBike")
-    bike = models.ForeignKey('bicycle')
+    bike = models.ForeignKey("bicycle", related_name="images")
 
 # класс модель вела 
 class AbstractModelBicycle(models.Model):
@@ -73,25 +73,45 @@ class AbstractModelBicycle(models.Model):
 
 
 # основной класс вела
-class bicycle(models.Model):
-    mainOwner = models.ForeignKey(User, verbose_name=_("Owner"))
+class bicycle(models.Model, AdminThumbMixin):
+    BRAKE_TYPE_CH = (('d', 'disk'), ('r', 'v-brake'), ('o', 'other'))
+
+    mainOwner = models.ForeignKey(User, verbose_name=_("Owner"), related_name="bikes")
    # owner = models.CharField(max_length=255, blank=True)
     numberFrame = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Frame number"))
     size_frame = models.IntegerField(blank=True, null=True, verbose_name=_("Size frame"))
     numberID = models.CharField(max_length=50, blank=True, null=True, verbose_name=_("Extra ID number"), default="-")
    # address = models.TextField(blank=True, null=True, verbose_name=_("Address"))
-    brake_type = models.CharField(max_length=1, blank=True, choices=(('d', 'disk'), ('r', 'v-brake'), ('o', 'other')), verbose_name=_("Brake type"))
+    brake_type = models.CharField(max_length=1, blank=True, choices=BRAKE_TYPE_CH, verbose_name=_("Brake type"))
     #img = ThumbnailImageField(upload_to='/img') # картинка
     comment = models.TextField(blank=True, verbose_name=_("Comment"))
     colorBicycle = models.ForeignKey(color, blank=True, null=True, verbose_name="Color Bicycle")
     modelBicycle = models.ForeignKey(AbstractModelBicycle, verbose_name="Model Bicycle")
-    status = models.CharField(max_length=1, choices=(('o', 'owner'),('s', 'stolen')), verbose_name="Status")
-    incidents = models.ManyToManyField('incident', blank=True, null=True, verbose_name=_("incidents"))
+    status = models.CharField(max_length=1, choices=(('o', 'owner'),('s', 'stolen')), verbose_name="Status", default='o')
     moderate = models.BooleanField(default=False, verbose_name=_("moderate"))
     city = models.ForeignKey("city", verbose_name=_("City"))
+    date_create = models.DateTimeField(auto_now_add=True,verbose_name=_("date create"))
+
+    admin_thumb_field = "image"
 
     objects = SearchableManager()
     search_fields = ("modelBicycle", "numberFrame", "comment")
+
+    @property
+    def get_brake_type(self):
+        r = _('None')
+        for ind, t in self.BRAKE_TYPE_CH:
+            if self.brake_type == ind:
+                r = t
+        return r
+
+    @property
+    def get_status(self):
+        if self.status == 's':
+            r = _('stolen')
+        else:
+            r = _('owner')
+        return r
 
     class Meta:
         verbose_name = _("bicycle")
@@ -106,9 +126,12 @@ class bicycle(models.Model):
 
 
 class incident(models.Model):
-    date = models.DateTimeField()
-    placeText = models.CharField(max_length=255)
-    comment = models.TextField()
+    date = models.DateTimeField(blank=True, null=True)
+    placeText = models.CharField(max_length=255, blank=True)
+    comment = models.TextField(blank=True)
+    bike = models.ForeignKey("bicycle", related_name="incidents")
+    statement2police = models.BooleanField(default=False)
+
     def __unicode__(self):
         return self.comment
 
@@ -124,11 +147,11 @@ class bicycleFirm(models.Model):
         return self.firmName
 
 class bikeListMain(Page):
-    bicycles = bicycle.objects.all()
     class Meta:
         verbose_name = _("Bike list")
         verbose_name_plural = _("Bike lists")
 
+    
 
 '''class Images(Orderable):
     """

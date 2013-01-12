@@ -1,7 +1,8 @@
 from django.forms import forms
-from django.forms.fields import CharField, ChoiceField, BooleanField, ImageField
+from django.forms.fields import CharField, ChoiceField, BooleanField, ImageField, DateField
 from django.forms.models import ModelForm, ModelChoiceField
-from django.forms.widgets import Textarea, TextInput, HiddenInput, Select
+from django.forms.widgets import Textarea, TextInput, HiddenInput, Select, DateInput
+import settings
 from zenbicycle.models import color, bicycle, city, bicycleFirm
 from mezzanine.core.forms import Html5Mixin
 from django.utils.translation import ugettext, ugettext_lazy as _
@@ -20,16 +21,22 @@ class bicycleForm(ModelForm):
 
 
 class addBikeForm(Html5Mixin, ModelForm):
-    city_new = CharField(label=_("City"))
+    city_new = CharField()
     firm = ModelChoiceField(queryset=bicycleFirm.objects.all(), required=False)
     model = CharField(required=False, widget=Select)
-    chk_stolen = BooleanField(label=_("Stolen"), required=False)
+    chk_stolen = BooleanField(required=False)
     img_file = ImageField(required=False)
-    
+
+    # for stolen info
+    stolen_address = CharField(required=False)
+    stolen_note = CharField(widget=forms.Textarea, required=False)
+    stolen_spk_police = BooleanField(required=False)
+    stolen_date = DateField(required=False, input_formats=settings.DATE_INPUT_FORMATS)
+
     class Meta:
         model = bicycle
         fields = ('firm', 'model', 'city_new', 'numberFrame', 'size_frame', 'brake_type', 'colorBicycle', 'comment', 'img_file', 'chk_stolen',  )
-
+        
     def clean_city_new(self):
         cityname = self.data["city_new"]
         try:

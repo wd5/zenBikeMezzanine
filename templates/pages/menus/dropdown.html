@@ -2,41 +2,40 @@
 {% spaceless %}
 {% if page_branch_in_navigation %}
 
-{% if branch_level == 0 %}
-<ul class="nav nav-pills pull-right">
-    {% for page in page_branch %}
-    {% if page.is_primary and forloop.first %}
-    <li class="{% if on_home %} active{% endif %}" id="dropdown-menu-{{ page.html_id }}">
-        <a href="{% url home %}">{% trans "Home" %}</a>
-    </li>
+    {% if branch_level == 0 %}
+        <ul class="nav nav-pills pull-right">
+            {% for page in page_branch %}
+                {% if page.is_primary and forloop.first %}
+                    <li class="{% if on_home %} active{% endif %}" id="dropdown-menu-{{ page.html_id }}">
+                        <a href="{% url home %}">{% trans "Home" %}</a>
+                    </li>
+                {% endif %}
+                {% if page.in_navigation %}
+                    <li class="dropdown {% if page.is_current_or_ascendant %} active{% endif %}"
+                        id="dropdown-menu-{{ page.html_id }}">
+                        <a href="{{ page.get_absolute_url }}" role="button">
+                            {{ page.title }}
+                            {% if page.has_children %}<span class="caret"></span>{% endif %}
+                        </a>
+                        {% if page.has_children %}{% page_menu page %}{% endif %}
+                    </li>
 
+                {% endif %}
+            {% endfor %}
+        </ul>
     {% endif %}
-    {% if page.in_navigation %}
-    <li class="{% if page.is_current_or_ascendant %} active{% endif %}"
-        id="dropdown-menu-{{ page.html_id }}">
-        <a href="{{ page.get_absolute_url }}">
-            {{ page.title }}
-            {% if page.has_children %}<span class="caret"></span>{% endif %}
-        </a>
-        {% if page.has_children %}{% page_menu page %}{% endif %}
-    </li>
 
+    {% if branch_level == 1 %}
+        <ul class="dropdown-menu" role="menu">
+            {% for page in page_branch %}
+                    <li class="dropdown {% if page.is_current_or_ascendant %}active{% endif %}"
+                       id="dropdown-menu-{{ page.html_id }}">
+                        <a  href="{{ page.get_absolute_url }}" role="button">{{ page.title }}</a>
+                    </li>
+            {% endfor %}
+        </ul>
     {% endif %}
-    {% endfor %}
-</ul>
-{% endif %}
-
-{% if branch_level == 1 %}
-<ul class="dropdown-menu" role="menu">
-    {% for page in page_branch %}
-    <li class="dropdown {% if page.is_current_or_ascendant %}active{% endif %}" data-toggle="dropdown"
-        id="dropdown-menu-{{ page.html_id }}">
-        <a class="dropdown-toggle" href="{{ page.get_absolute_url }}">{{ page.title }}</a>
-         <b class="caret"></b>
-    </li>
-    {% endfor %}
-</ul>
-{% endif %}
 
 {% endif %}
+
 {% endspaceless %}

@@ -17,11 +17,15 @@
 
 {% endblock %}
 
-<div class="btn-group blistheadbtn">
+<div class="btn-group blistheadbtn" data-toggle="buttons-radio">
   <a class="btn" href="#"><i class="icon-th-large"></i></a>
   <a class="btn" href="#"><i class="icon-th"></i></a>
 </div>
 
+{% if not bicycles %}
+    
+
+{% else %}
 <table class="table table-striped">
 <!--<caption></caption> -->
   <thead>
@@ -38,7 +42,7 @@
     <tr>
       <td>{{ bicycle.numberID }}</td>
       <td>{{ bicycle.modelBicycle }}</td>
-      <td>{{ bicycle.colorBicycle }}</td>
+      <td>{% if  bicycle.colorBicycle %} {{ bicycle.colorBicycle }}{% else %} {% trans "unknown" %} {% endif %}</td>
       <td>{{ bicycle.numberFrame }}</td>
       <td><a class="btn btn-mini" href="bike/{{ bicycle.id }}"><i class="icon-info-sign"></i></a></td>
     </tr>
@@ -47,7 +51,7 @@
 
 </table>
 
-
+{% endif %}
 
 
 {% endblock %}

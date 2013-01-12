@@ -1,5 +1,7 @@
+from cartridge.shop.forms import ImageWidget
+from mezzanine.core.admin import TabularDynamicInlineAdmin
 
-from zenbicycle.models import bicycle, AbstractModelBicycle, bicycleFirm, imagesList, color, bikeListMain, city
+from zenbicycle.models import *
 from django.contrib import admin
 from mezzanine.pages.admin import PageAdmin
 from sorl.thumbnail.admin import AdminImageMixin
@@ -11,6 +13,10 @@ from django.utils.translation import ugettext_lazy as _
 #class bicycleFirmInline(admin.StackedInline):
 #    model = bicycleFirm
     #list_display = ('firmName')
+class BikeImageAdmin(TabularDynamicInlineAdmin):
+    model = imagesListForBike
+    formfield_overrides = {ImageField: {"widget": ImageWidget}}
+
 
 class imagesListInline(AdminImageMixin, admin.TabularInline):
     model = imagesList
@@ -46,10 +52,11 @@ class bicycleInline(AutocompleteTabularInline ):
         }
 '''
 class bicycleAdmin(admin.ModelAdmin):
-    list_display = ('modelBicycle', 'numberFrame', 'colorBicycle', 'size_frame', 'brake_type' , 'mainOwner', 'status', 'city', 'numberID', 'moderate')
+    list_display = ('modelBicycle', 'numberFrame', 'colorBicycle', 'size_frame', 'brake_type' , 'mainOwner', 'status', 'city', 'numberID', 'moderate', 'date_create')
     list_filter = ('city', 'moderate')
     actions = [admin.actions.delete_selected, 'make_moderate']
-    
+    inlines = (BikeImageAdmin,)
+
     def make_moderate(self, request, queryset):
         queryset.update(moderate=True)
     make_moderate.short_description = _("Mark as inspection")
@@ -69,6 +76,8 @@ class bicycleAdmin(admin.ModelAdmin):
    # related_search_fields={
    #             'colorBicycle':                 ( 'name', ),
    #     }
+
+
 
 admin.site.register(bikeListMain, PageAdmin)
 admin.site.register(bicycle, bicycleAdmin)

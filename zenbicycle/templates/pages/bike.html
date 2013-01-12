@@ -1,6 +1,17 @@
 {% extends "pages/page.html" %}
 
 {% load i18n %}
+{% load mezzanine_tags %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{{ STATIC_URL }}mezzanine/js/jquery.tools.toolbox.expose.js"></script>
+<script src="{{ STATIC_URL }}mezzanine/js/jquery.tools.overlay.js"></script>
+<script src="{{ STATIC_URL }}mezzanine/js/gallery.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap-lightbox.min.js"></script>
+
+{% endblock %}
+
 
 {% block body_id %}bike{% endblock %}
 
@@ -8,53 +19,91 @@
 {% endblock %}
 
 {% block extra_css %}
-  
+<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-lightbox.min.css">
+  <style>
+    .card {
+        float: right;
+    }
+ </style>
 {% endblock %}
 
 {% block main %}
+
   <form>
   <fieldset>
     <legend>
        {% trans "bike card" %}
    </legend>
-  {% if img_mode %}
-   <img src="{{ imgs }}" alt="">
+
+   <div class="bcard">
+     {% if img_mode %}
+          <a class="thumbnail card" href="#myModal" data-toggle="lightbox">
+            <img class="image-overlay-thumb" src="{{ MEDIA_URL }}{% thumbnail imgs 150 150 %}">
+          </a>
+
+          <div id="myModal" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
+                <div class='lightbox-header'>
+                    <button type="button" class="close" data-dismiss="lightbox" aria-hidden="true">&times;</button>
+                </div>
+                <div class='lightbox-content'>
+                    <img src="{{ imgs }}">
+                </div>
+           </div>
+<!-- Modal div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1"-->
+ {% comment %}
+        <div id="myModal" class="modal modal-gallery hide fade">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              </div>
+              <div class="modal-body">
+
+                    <img src="{{ MEDIA_URL }}{% thumbnail imgs 0 600 %}"><br>
+
+
+              </div>
+  
+            </div>
+    </li>
+ {% endcomment %}
   {% endif %}
-    <div class="bcard">
         <dl  class="dl-horizontal">
-          {% if bicycle.numberID != "" %}
-                <dt>{% trans "id" %}</dt>
-                <dd>{{ bicycle.numberID }}</dd>
-          {% endif %}
-          {% if bicycle.owner != "" %}
+          {% if bicycle.owner %}
                  <dt>{% trans "owner" %}</dt>
-                 <dd>{{ bicycle.owner }}</dd>
+                 <dd>{{ bicycle.mainOwner }}</dd>
           {% endif %}
-          {% if bicycle.numberFrame != "" %}
+          {% if bicycle.numberFrame %}
                   <dt>{% trans "serial" %}</dt>
                   <dd>{{ bicycle.numberFrame }}</dd>
           {% endif %}
-          {% if bicycle.modelBicycle != "" %}
+          {% if bicycle.modelBicycle %}
                   <dt>{% trans "model" %}</dt>
                   <dd>{{ bicycle.modelBicycle }}</dd>
           {% endif %}
-          {% if bicycle.colorBicycle != "" %}
+          {% if bicycle.modelBicycle %}
+                  <dt>{% trans "brake type" %}</dt>
+                  <dd>{{ bicycle.get_brake_type }}</dd>
+          {% endif %}
+          {% if bicycle.colorBicycle %}
                   <dt>{% trans "color" %}</dt>
                   <dd>{{ bicycle.colorBicycle }}</dd>
           {% endif %}
-          {% if bicycle.comment != "" %}
+          {% if bicycle.comment %}
                    <dt>{% trans "comment" %}</dt>
                    <dd>{{ bicycle.comment }}</dd>
           {% endif %}
-          {% if bicycle.address != "" %}
+          {% if bicycle.address %}
                <dt>{% trans "address" %}</dt>
                <dd>{{ bicycle.address }}</dd>
+           {% endif %}
+           {% if bicycle.status %}
+               <dt>{% trans "Status" %}</dt>
+               <dd>{{ bicycle.get_status }}</dd>
            {% endif %}
         </dl>
 
     </div>
-    <a class="btn " href="/bikelist">{% trans "return list" %}</a>
+
   </fieldset>
   </form>
-  </form>
+
 {% endblock %}

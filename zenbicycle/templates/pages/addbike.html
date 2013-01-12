@@ -5,6 +5,12 @@
 {% block extra_js %}
 
   <script  charset="utf-8" type="text/javascript">
+   $(function() {
+    $( "#id_stolen_date" ).datepicker();
+    $( "#id_stolen_date" ).datepicker("option", "dateFormat", "dd-mm-yy" );
+
+  });
+
   $(function(){
     $("select#id_firm").change(function(){
       $.getJSON("/bikelist/ajax/getmodel/",{firm:+$(this).val()}, function(j) {
@@ -28,8 +34,13 @@
   $(document).ready(function(){
         $('#stolenblock').hide(); // Для скрытия блока (с инфой о пропаже)
         $('#id_chk_stolen').change(function(){
-            $('#stolenblock').fadeToggle();
+            if ($('#id_chk_stolen').is(':checked')){
+               $('#stolenblock').show("drop");
+            }else{
+               $('#stolenblock').hide("drop"); //   $('#stolenblock').fadeToggle();
+            };
             });
+         
    })
 
   $(function() {
@@ -82,6 +93,9 @@
     .ui-autocomplete-loading {
         background: white url("{{ STATIC_URL }}img/load16x16.gif") right center no-repeat;
     }
+    .errorlist li {
+        color: #B94A48;
+    }
  </style>
 {% endblock %}
 
@@ -98,18 +112,58 @@
 
         <legend>{% trans "add bike" %}</legend>
 
-        {{ formset }}
+          <label for="id_firm">{% trans "Firm" %}</label>
+         {{ formset.firm }}
+         <span class="help-inline">{{ formset.firm.errors }}</span>
 
+         <label for="id_model">{% trans "Model" %}</label>
+         {{ formset.model }}
+        <span class="help-inline">{{ formset.model.errors }}</span>
+
+        <label for="id_size_frame">{% trans "Frame size" %}</label>
+        {{ formset.size_frame }}
+        <span class="help-inline">{{ formset.size_frame.errors }}</span>
+
+        <label for="id_colorBicycle">{% trans "Color" %}</label>
+        {{ formset.colorBicycle }}
+        <span class="help-inline">{{ formset.colorBicycle.errors }}</span>
+
+        <label for="id_brake_type">{% trans "Brake type" %}</label>
+       {{ formset.brake_type }}
+        <span class="help-inline">{{ formset.brake_type.errors }}</span>
+
+        <label for="id_city_new">{% trans "City" %}</label>
+        {{ formset.city_new }}
+        <span class="help-inline">{{ formset.city_new.errors }}</span>
+
+        <label for="id_comment">{% trans "Additional information" %}</label>
+        {{ formset.comment }}
+        <span class="help-inline">{{ formset.comment.errors }}</span>
+
+        <label for="id_img_file">{% trans "Select photo" %}</label>
+       {{ formset.img_file }}
+        <span class="help-inline">{{ formset.img_file.errors }}</span>
+
+        <label for="id_chk_stolen" class="checkbox" id="checkbox_stolen">
+           {{ formset.chk_stolen }} {% trans "Stolen" %}
+        </label>
+   <!--  end -->
         <div id="stolenblock">
-             <label>{% trans "Address" %}</label>
-            <input type="text"  name="num_frame">
+             <label for="id_stolen_address">{% trans "Address" %}</label>
+             {{ formset.stolen_address }}
+            <span class="help-inline">{{ formset.stolen_address.errors }}</span>
 
-             <label class="checkbox">
-                <input type="checkbox"> {% trans "statement to the police" %}
+            <label for="id_stolen_date">{% trans "Date" %}</label>
+            {{ formset.stolen_date }}
+            <span class="help-inline">{{ formset.stolen_date.errors }}</span>
+
+             <label for="id_stolen_spk_police" class="checkbox">
+                {{ formset.stolen_spk_police }} {% trans "statement to the police" %}
             </label>
 
-             <label>{% trans "notes on the incident" %}</label>
-            <textarea rows="2" name="stolen_notes"></textarea>
+            <label for="id_stolen_note">notes on the incident</label>
+            {{ formset.stolen_note }}
+            <span class="help-inline">{{ formset.stolen_note.errors }}</span>
         </div>
 
     <div class="form-actions">

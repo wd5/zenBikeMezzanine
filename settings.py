@@ -171,7 +171,9 @@ MANAGERS = ADMINS
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
 TIME_ZONE = None
+USE_L10N = True
 
+DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 # If you set this to True, Django will use timezone-aware datetimes.
 USE_TZ = True
 

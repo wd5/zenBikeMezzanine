@@ -16,14 +16,14 @@
 {{ block.super }}
 
 {% endblock %}
-
+<!--
 <div class="btn-group blistheadbtn" data-toggle="buttons-radio">
   <a class="btn" href="#"><i class="icon-th-large"></i></a>
   <a class="btn" href="#"><i class="icon-th"></i></a>
-</div>
+</div>  -->
 
 {% if not bicycles %}
-    
+    <p>{% trans "No data in database" %}</p>
 
 {% else %}
 <table class="table table-striped">

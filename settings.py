@@ -171,7 +171,6 @@ MANAGERS = ADMINS
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
 TIME_ZONE = None
-USE_L10N = True
 
 DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 # If you set this to True, Django will use timezone-aware datetimes.
@@ -328,6 +327,7 @@ INSTALLED_APPS = (
     "djangobb_forum",
     "haystack",
     "django_messages",
+    "hunger",
     #geonames.org
   #  "geo",
   #  "cities_light",
@@ -375,6 +375,7 @@ MIDDLEWARE_CLASSES = (
     # "mezzanine.core.middleware.SSLRedirectMiddleware",
     "mezzanine.pages.middleware.PageMiddleware",
     "mezzanine.core.middleware.FetchFromCacheMiddleware",
+    "hunger.middleware.BetaMiddleware",
 )
 
 

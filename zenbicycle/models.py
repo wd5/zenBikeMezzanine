@@ -96,7 +96,13 @@ class bicycle(models.Model, AdminThumbMixin):
 
     objects = SearchableManager()
     search_fields = ("modelBicycle", "numberFrame", "comment")
-
+    @property
+    def get_first_img_url(self):
+        if self.images.count() > 0:
+            img = self.images.all()[0]
+            return img.image.url
+        return ""
+    
     @property
     def get_brake_type(self):
         r = _('None')

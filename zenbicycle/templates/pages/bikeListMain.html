@@ -1,6 +1,7 @@
 {% extends "pages/page.html" %}
 
 {% load i18n %}
+{% load mezzanine_tags %}
 
 {% block body_id %}bikeListMain{% endblock %}
 
@@ -30,6 +31,7 @@
 <!--<caption></caption> -->
   <thead>
     <tr>
+      <th></th>
       <th>{% trans "id" %}</th>
       <th>{% trans "model" %}</th>
       <th>{% trans "color" %}</th>
@@ -40,6 +42,13 @@
   <tbody>
   {% for bicycle in bicycles %}
     <tr>
+      <td>
+          {% if bicycle.get_first_img_url %}
+          <a href="bike/{{ bicycle.id }}">
+                <img class="image-overlay-thumb" src="{{ MEDIA_URL }}{% thumbnail bicycle.get_first_img_url 50 50 %}">
+          </a>
+          {% endif %}
+      </td>
       <td>{{ bicycle.numberID }}</td>
       <td>{{ bicycle.modelBicycle }}</td>
       <td>{% if  bicycle.colorBicycle %} {{ bicycle.colorBicycle }}{% else %} {% trans "unknown" %} {% endif %}</td>

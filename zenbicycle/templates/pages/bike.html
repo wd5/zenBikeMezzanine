@@ -67,17 +67,17 @@
  {% endcomment %}
   {% endif %}
         <dl  class="dl-horizontal">
-          {% if bicycle.owner %}
-                 <dt>{% trans "owner" %}</dt>
-                 <dd>{{ bicycle.mainOwner }}</dd>
+          {% if bicycle.modelBicycle %}
+                  <dt>{% trans "model" %}</dt>
+                  <dd>{{ bicycle.modelBicycle }}</dd>
           {% endif %}
           {% if bicycle.numberFrame %}
                   <dt>{% trans "serial" %}</dt>
                   <dd>{{ bicycle.numberFrame }}</dd>
           {% endif %}
-          {% if bicycle.modelBicycle %}
-                  <dt>{% trans "model" %}</dt>
-                  <dd>{{ bicycle.modelBicycle }}</dd>
+           {% if bicycle.size_frame %}
+                  <dt>{% trans "frame size" %}</dt>
+                  <dd>{{ bicycle.size_frame }}</dd>
           {% endif %}
           {% if bicycle.modelBicycle %}
                   <dt>{% trans "brake type" %}</dt>
@@ -87,16 +87,24 @@
                   <dt>{% trans "color" %}</dt>
                   <dd>{{ bicycle.colorBicycle }}</dd>
           {% endif %}
+                  <dt>{% trans "city" %}</dt>
+                   <dd>{{ bicycle.city }}</dd>
           {% if bicycle.comment %}
                    <dt>{% trans "comment" %}</dt>
                    <dd>{{ bicycle.comment }}</dd>
+          {% endif %}
+            {% if bicycle.mainOwner %}
+                 <dt>{% trans "owner" %}</dt>
+                 <dd>{{ bicycle.mainOwner }}</dd>
           {% endif %}
           {% if bicycle.address %}
                <dt>{% trans "address" %}</dt>
                <dd>{{ bicycle.address }}</dd>
            {% endif %}
+               <dt>{% trans "date create" %}</dt>
+               <dd>{{ bicycle.date_create }}</dd>
            {% if bicycle.status %}
-               <dt>{% trans "Status" %}</dt>
+               <dt>{% trans "status" %}</dt>
                <dd>{{ bicycle.get_status }}</dd>
            {% endif %}
         </dl>

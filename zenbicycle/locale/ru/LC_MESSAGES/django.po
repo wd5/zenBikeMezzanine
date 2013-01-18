@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-04 12:52+0600\n"
+"POT-Creation-Date: 2013-01-19 01:28+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,18 +18,217 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: .\views.py:16
-msgid "test"
-msgstr "тест"
+#: .\admin.py:62
+msgid "Mark as inspection"
+msgstr "Проверен"
 
-#: .\templates\pages\bikeListMain.html.py:13
-msgid "id"
-msgstr "#"
+#: .\models.py:19 .\templates\pages\bike.html.py:88
+#: .\templates\pages\bikeListMain.html.py:38
+msgid "color"
+msgstr "цвет"
 
-#: .\templates\pages\bikeListMain.html.py:14
+#: .\models.py:20
+#, fuzzy
+msgid "colors"
+msgstr "цвет"
+
+#: .\models.py:29 .\templates\pages\bike.html.py:91
+msgid "city"
+msgstr "город"
+
+#: .\models.py:30
+#, fuzzy
+msgid "cities"
+msgstr "города"
+
+#: .\models.py:58
+#, fuzzy
+msgid "bike model"
+msgstr "модель"
+
+#: .\models.py:79
+msgid "Owner"
+msgstr "Хозян"
+
+#: .\models.py:81
+msgid "Frame number"
+msgstr "Номер рамы"
+
+#: .\models.py:82
+msgid "Size frame"
+msgstr "Размер рамы"
+
+#: .\models.py:83
+msgid "Extra ID number"
+msgstr "Доп. номер"
+
+#: .\models.py:85 .\templates\pages\addbike.html.py:131
+msgid "Brake type"
+msgstr "Тип тормозов"
+
+#: .\models.py:87
+msgid "Comment"
+msgstr "Комментарии"
+
+#: .\models.py:91
+#, fuzzy
+msgid "moderate"
+msgstr "модель"
+
+#: .\models.py:92 .\templates\pages\addbike.html.py:135
+msgid "City"
+msgstr "Город"
+
+#: .\models.py:93 .\templates\pages\bike.html.py:105
+msgid "date create"
+msgstr "дата создания"
+
+#: .\models.py:108
+msgid "None"
+msgstr "-"
+
+#: .\models.py:117
+msgid "stolen"
+msgstr "украден"
+
+#: .\models.py:119 .\templates\pages\bike.html.py:98
+msgid "owner"
+msgstr "хозяин"
+
+#: .\models.py:123
+msgid "bicycle"
+msgstr "велосипед"
+
+#: .\models.py:124
+msgid "bicycles"
+msgstr "велосипеды"
+
+#: .\models.py:145
+msgid "Firm name"
+msgstr "Фирма"
+
+#: .\models.py:146
+msgid "Country"
+msgstr "Страна"
+
+#: .\models.py:149
+msgid "firm"
+msgstr "фирм"
+
+#: .\models.py:150
+msgid "firms"
+msgstr "фирмы"
+
+#: .\models.py:157
+msgid "Bike list"
+msgstr "Список велов"
+
+#: .\models.py:158
+msgid "Bike lists"
+msgstr "Списки велов"
+
+#: .\views.py:24
+msgid "Your bikes  list is empty"
+msgstr "Ваш список велосипедов пуст"
+
+#: .\views.py:96
+msgid "Your bike is added successfully"
+msgstr "Ваш велосипед добавлен"
+
+#: .\templates\pages\addbike.html.py:113
+msgid "add bike"
+msgstr "добавить байк"
+
+#: .\templates\pages\addbike.html.py:115
+msgid "Firm"
+msgstr "Фирма"
+
+#: .\templates\pages\addbike.html.py:119
+#, fuzzy
+msgid "Model"
+msgstr "модель"
+
+#: .\templates\pages\addbike.html.py:123
+msgid "Frame size"
+msgstr "Размер рамы"
+
+#: .\templates\pages\addbike.html.py:127
+#, fuzzy
+msgid "Color"
+msgstr "Цвет"
+
+#: .\templates\pages\addbike.html.py:139
+msgid "Additional information"
+msgstr "Доп. информация"
+
+#: .\templates\pages\addbike.html.py:143
+msgid "Select photo"
+msgstr "Выбрать фото"
+
+#: .\templates\pages\addbike.html.py:148
+msgid "Stolen"
+msgstr "Украден"
+
+#: .\templates\pages\addbike.html.py:152
+msgid "Address"
+msgstr "Адрес"
+
+#: .\templates\pages\addbike.html.py:156
+msgid "Date"
+msgstr "Дата"
+
+#: .\templates\pages\addbike.html.py:161
+msgid "statement to the police"
+msgstr "Есть заявление в полицию"
+
+#: .\templates\pages\addbike.html.py:170
+msgid "Submit"
+msgstr "Отправить"
+
+#: .\templates\pages\bike.html.py:35
+msgid "bike card"
+msgstr "Карточка вела"
+
+#: .\templates\pages\bike.html.py:72 .\templates\pages\bikeListMain.html.py:37
 msgid "model"
 msgstr "модель"
 
-#: .\templates\pages\bikeListMain.html.py:15
-msgid "color"
-msgstr "цвет"
+#: .\templates\pages\bike.html.py:76 .\templates\pages\bikeListMain.html.py:39
+msgid "serial"
+msgstr "с/н"
+
+#: .\templates\pages\bike.html.py:80
+msgid "frame size"
+msgstr "размер рамы"
+
+#: .\templates\pages\bike.html.py:84
+msgid "brake type"
+msgstr "тип тормозов"
+
+#: .\templates\pages\bike.html.py:94
+msgid "comment"
+msgstr "комментарий"
+
+#: .\templates\pages\bike.html.py:102
+msgid "address"
+msgstr "адрес"
+
+#: .\templates\pages\bike.html.py:108
+msgid "status"
+msgstr "статус"
+
+#: .\templates\pages\bikeListMain.html.py:28
+msgid "No data in database"
+msgstr "Нет даных в базе"
+
+#: .\templates\pages\bikeListMain.html.py:36
+msgid "id"
+msgstr "#"
+
+#: .\templates\pages\bikeListMain.html.py:40
+msgid "review"
+msgstr "просмотр"
+
+#: .\templates\pages\bikeListMain.html.py:55
+msgid "unknown"
+msgstr "неизвестный"

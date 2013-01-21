@@ -30,7 +30,7 @@ msgstr "цвет"
 #: .\models.py:20
 #, fuzzy
 msgid "colors"
-msgstr "цвет"
+msgstr "цвета"
 
 #: .\models.py:29 .\templates\pages\bike.html.py:91
 msgid "city"
@@ -219,7 +219,7 @@ msgstr "статус"
 
 #: .\templates\pages\bikeListMain.html.py:28
 msgid "No data in database"
-msgstr "Нет даных в базе"
+msgstr "Нет данных в базе"
 
 #: .\templates\pages\bikeListMain.html.py:36
 msgid "id"

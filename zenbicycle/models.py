@@ -56,6 +56,7 @@ class AbstractModelBicycle(models.Model):
 
     class Meta:
         verbose_name = _("bike model")
+        verbose_name_plural = _("bikes models")
 
     def get_thumbnail_html(self):
         img = self.image
@@ -127,7 +128,7 @@ class bicycle(models.Model, AdminThumbMixin):
         if self.modelBicycle:
             return self.modelBicycle.modelName
         else:
-            return u'%s %s' (self.id, self.comment)
+            return u'%s %s' % (self.id, self.comment)
 
 
 

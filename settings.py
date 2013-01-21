@@ -30,8 +30,8 @@
 # Controls the formatting of monetary values accord to the locale
 # module in the python standard library. If an empty string is
 # used, will fall back to the system's locale.
-# SHOP_CURRENCY_LOCALE = ""
-
+SHOP_CURRENCY_LOCALE = "Russian_Russia"
+SHOP_PAYMENT_STEP_ENABLED = False
 # Default cost of shipping when no custom shipping is implemented.
 # SHOP_DEFAULT_SHIPPING_VALUE = 10
 
@@ -327,6 +327,7 @@ INSTALLED_APPS = (
     "djangobb_forum",
     "haystack",
     "django_messages",
+
     #geonames.org
   #  "geo",
   #  "cities_light",
@@ -363,7 +364,6 @@ MIDDLEWARE_CLASSES = (
     "django.contrib.redirects.middleware.RedirectFallbackMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    
     "django.contrib.messages.middleware.MessageMiddleware",
     "cartridge.shop.middleware.ShopMiddleware",
     "pagination.middleware.PaginationMiddleware",
@@ -371,6 +371,7 @@ MIDDLEWARE_CLASSES = (
     "mezzanine.core.middleware.TemplateForDeviceMiddleware",
     "mezzanine.core.middleware.TemplateForHostMiddleware",
     "mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware",
+    "mezzanine.core.middleware.SitePermissionMiddleware",
     # Uncomment the following if using any of the SSL settings:
     # "mezzanine.core.middleware.SSLRedirectMiddleware",
     "mezzanine.pages.middleware.PageMiddleware",
